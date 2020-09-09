@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   invitation: {
     flexGrow: 1,
     padding: "5vw",
-    color: "white",
     textAlign: "center",
   },
   button: {
@@ -39,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(3),
   },
   header: {
-    fontWeight: "600",
     marginTop: theme.spacing(4),
   },
 }));
@@ -49,40 +47,30 @@ export default function Invitation() {
 
   return (
     <div className={classes.invitation}>
-      <Grid container>
-        <Grid item xs={12} className={classes.firstGrid}>
-          <Paper elevation={0}>
-            <Typography
-              variant={"h3"}
-              component={"h1"}
-              className={classes.header}
-            >
-              The Market is in our DNA
-            </Typography>
-          </Paper>
+      <Grid container direction={"row"}>
+        <Grid item sm={12} md={6}>
+          <Typography
+            variant={"h3"}
+            component={"h1"}
+            className={classes.header}
+          >
+            The Market is in our DNA
+          </Typography>
+          <Typography variant={"h5"} component={"h4"}>
+            Our award-winning, intuitive platforms are equipped with a suite of
+            powerful tools to support your investments and ensure maximization
+            of the your funds and potential profits. Our Platforms supports all
+            devices making it easily available for everyone everywhere to have a
+            share in the Cryptocurrency industry.
+          </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Grid container direction={"row"}>
-            <Grid item sm={12} md={6}>
-              <Paper elevation={0} className={classes.paperClip}>
-                <Grid xs={12}>
-                  <Typography variant={"h5"} component={"h4"}>
-                    Our award-winning, intuitive platforms are equipped with a
-                    suite of powerful tools to support your investments and
-                    ensure maximization of the your funds and potential profits
-                  </Typography>
-                </Grid>
-              </Paper>
-            </Grid>
-            <Grid item sm={12} md={6}>
-              <Paper
-                elevation={0}
-                component={"img"}
-                src={Ubuntu2}
-                className={classes.video}
-              />
-            </Grid>
-          </Grid>
+        <Grid item sm={12} md={6}>
+          <Paper
+            elevation={0}
+            component={"img"}
+            src={Ubuntu2}
+            className={classes.video}
+          />
         </Grid>
       </Grid>
     </div>

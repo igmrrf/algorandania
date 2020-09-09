@@ -10,7 +10,12 @@ import Icon from "@material-ui/core/Icon";
 import AccountBalanceWalletRounded from "@material-ui/icons/AccountBalanceWalletRounded";
 import Lock from "@material-ui/icons/Lock";
 import green from "@material-ui/core/colors/green";
-import { AddToHomeScreenRounded, FastForward } from "@material-ui/icons";
+import gold from "@material-ui/core/colors/yellow";
+import {
+  AddToHomeScreenRounded,
+  FastForward,
+  SecurityOutlined,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: "100%",
-    height: "100%",
+    height: "250px",
+    paddingTop: "30px",
   },
   media: {
     margin: theme.spacing(2),
@@ -29,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   features: {
     margin: theme.spacing(2),
+    paddingTop: "5vh",
   },
   icon: {
     color: "blue",
@@ -40,24 +47,22 @@ const useStyles = makeStyles((theme) => ({
 
 const info = [
   {
-    title: "Security",
+    title: "Privacy & Security",
     body:
       "Our commitment to safety assures integrity, so you can concentrate on what’s important - investing in the markets.",
-    icon: <Lock style={{ color: green[500], fontSize: 40 }} />,
+    icon: <SecurityOutlined style={{ color: gold[800], fontSize: 40 }} />,
   },
   {
-    title: "Leverage",
+    title: "Ease of Access",
     body:
-      "Our commitment to safety assures integrity, so you can concentrate on what’s important - investing in the markets.",
-    icon: (
-      <AddToHomeScreenRounded style={{ color: green[500], fontSize: 40 }} />
-    ),
+      "Our platform is customized to make it fit better to your needs and exploration.",
+    icon: <SecurityOutlined style={{ color: gold[800], fontSize: 40 }} />,
   },
   {
-    title: "Speed and reliable",
+    title: "24/7 Customer Support",
     body:
-      "Our commitment to safety assures integrity, so you can concentrate on what’s important - investing in the markets.",
-    icon: <FastForward style={{ color: green[500], fontSize: 40 }} />,
+      "Our team of professionals and Investment experts are always here to support you.",
+    icon: <FastForward style={{ color: gold[800], fontSize: 40 }} />,
   },
 ];
 
@@ -72,8 +77,12 @@ const Features = () => {
         alignItems={"center"}
       >
         <Grid item xs={10}>
-          <Typography variant={"h3"} component={"h1"}>
-            Get More
+          <Typography
+            variant={"h3"}
+            component={"h1"}
+            style={{ marginBottom: "20px" }}
+          >
+            Why BCMT?
           </Typography>
           <Typography variant={"h6"} component={"h1"}>
             Discover why millions of users from over 140 countries choose to
@@ -92,7 +101,7 @@ const Features = () => {
                       {cad.title}
                     </Typography>
                     <Typography
-                      variant="body2"
+                      variant="h6"
                       color="textSecondary"
                       component="p"
                       className={classes.text}
@@ -100,12 +109,6 @@ const Features = () => {
                       {cad.body}
                     </Typography>
                   </CardContent>
-
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Start Now
-                    </Button>
-                  </CardActions>
                 </Card>
               </Grid>
             ))}

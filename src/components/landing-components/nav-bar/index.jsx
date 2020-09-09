@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
     background: "none",
     border: "none",
+    color: "white",
   },
   borderless: {
     border: "none",
@@ -46,7 +47,7 @@ export default function LandingNavBar() {
   const classes = useStyles();
 
   return (
-    <AppBar position="sticky" color={"transparent"}>
+    <AppBar position="sticky" style={{ background: "rgb(18,29,51)" }}>
       <Toolbar>
         <Typography variant="h5" className={classes.title}>
           <Link to="/why-us" color="inherit" component={RouterLink}>
@@ -59,28 +60,28 @@ export default function LandingNavBar() {
             {/*  <Typography variant={"h6"}>WHY BCMT</Typography>*/}
             {/*</Link>*/}
             <Link to="/" color="inherit" component={RouterLink}>
-              <Typography variant={"h6"}>HOME</Typography>
+              <Typography variant={"h6"}>Home</Typography>
             </Link>
           </Paper>
           <Paper className={classes.link} elevation={0}>
             <Link to="/plans" color="inherit" component={RouterLink}>
-              <Typography variant={"h6"}>CONTACT</Typography>
+              <Typography variant={"h6"}>Contact</Typography>
             </Link>
           </Paper>
           <Paper className={classes.link} elevation={0}>
             <Link to="/faqs" color="inherit" component={RouterLink}>
-              <Typography variant={"h6"}>KYC POLICY</Typography>
+              <Typography variant={"h6"}>KYC Policy</Typography>
             </Link>
           </Paper>
           <Paper className={classes.link} elevation={0}>
             <Link to={"/about-us"} color="inherit" component={RouterLink}>
-              <Typography variant={"h6"}>PRIVACY POLICY</Typography>
+              <Typography variant={"h6"}>Privacy Policy</Typography>
             </Link>
           </Paper>
 
           <Paper className={classes.link} elevation={0}>
             <Link to={"/contact-us"} component={RouterLink} color="inherit">
-              <Typography variant={"h6"}>PAYMENT POLICY</Typography>
+              <Typography variant={"h6"}>Payment Policy</Typography>
             </Link>
           </Paper>
           <div className={classes.links}>

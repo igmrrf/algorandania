@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import btc from "../../../assets/landing-assets/img/trade.png";
 import { MoneyOffRounded } from "@material-ui/icons";
+import Icon from "@material-ui/core/Icon";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
   cryptoItem: {
     padding: theme.spacing(1),
     textAlign: "center",
+    background: "rgb(18,29,51)",
+    color: "white",
   },
 }));
 
@@ -84,24 +87,24 @@ const Banner = () => {
               spacing={3}
               className={classes.crypto}
             >
-              <Grid item xs={12} sm={5} md={3}>
+              <Grid item xs={12} sm={5} md={4}>
                 <Paper className={classes.cryptoItem}>
                   <Typography variant={"h6"} component={"h6"}>
-                    <MoneyOffRounded /> BTC : $11,765.09
+                    <Icon className={"fab fa-bitcoin"} /> $11,765.09
                   </Typography>
                 </Paper>
               </Grid>
               <Grid item xs={10} sm={5} md={3}>
                 <Paper className={classes.cryptoItem}>
                   <Typography variant={"h6"} component={"h6"}>
-                    <MoneyOffRounded /> ETH : $430.89
+                    <Icon className={"fab fa-ethereum"} /> $430.89
                   </Typography>
                 </Paper>
               </Grid>
               <Grid item xs={12} sm={5} md={3}>
                 <Paper className={classes.cryptoItem}>
                   <Typography variant={"h6"} component={"h6"}>
-                    <MoneyOffRounded /> ALG : $0.52
+                    <Icon className={"fas fa-yen-sign"} /> $32,049.52
                   </Typography>
                 </Paper>
               </Grid>

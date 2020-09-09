@@ -9,11 +9,13 @@ import green from "@material-ui/core/colors/green";
 const useStyles = makeStyles((theme) => ({
   root: {
     flowGrid: 1,
-    padding: "10vw",
+    padding: "10vh 10vw",
     textAlign: "center",
+    background: "rgb(8,19,41)",
+    color: "white",
   },
   card: {
-    color: green[500],
+    color: "rgb(18,29,51)",
     margin: "10px",
     padding: "25px 15px",
     "&:hover": {
@@ -21,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
       transform: "scale(1.05)",
       boxShadow: "0 0 5px 1px grey",
     },
-  },
-  volume: {
-    color: green[500],
-    border: "2px solid red",
   },
 }));
 
@@ -51,7 +49,11 @@ const Statistics = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Typography variant={"h3"} component={"h1"}>
+      <Typography
+        variant={"h3"}
+        component={"h1"}
+        style={{ marginBottom: "10vh" }}
+      >
         Our Numbers
       </Typography>
       <Grid container justify={"center"} alignItems={"center"}>
@@ -61,7 +63,7 @@ const Statistics = () => {
               <Typography variant={"h3"} component={"h3"}>
                 {each.total}
               </Typography>
-              <Typography variant={"h5"} component={"h4"} color={"primary"}>
+              <Typography variant={"h5"} component={"h4"}>
                 {each.quantity}
               </Typography>
             </Paper>

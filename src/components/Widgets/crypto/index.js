@@ -35,7 +35,7 @@ class Crypto extends React.Component {
   render() {
     const classes = useStyle();
     return (
-      <Grid item xs={12} md={5}>
+      <Grid item xs={12}>
         <div
           id={"id-crypto-widget"}
           className="tradingview-widget-container"

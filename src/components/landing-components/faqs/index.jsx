@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   header: {
-    marginBottom: "10vw",
+    marginBottom: "10vh",
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -45,7 +45,7 @@ export default function Faqs() {
       >
         <Grid item xs={11} md={10}>
           <Typography
-            variant={"h4"}
+            variant={"h3"}
             component={"h1"}
             className={classes.header}
           >

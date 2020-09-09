@@ -14,8 +14,9 @@ function LandingPage() {
   return (
     <div>
       <Banner />
-      <Statistics />
+
       <Invitation />
+      <Statistics />
       <Features />
       <OurServices />
       <Plans />

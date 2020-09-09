@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: "5vw",
     textAlign: "center",
+    background: "white",
   },
   button: {
     padding: "15px 25px",
@@ -35,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
   firstGrid: {
     marginBottom: theme.spacing(3),
   },
-  header: {
-    fontWeight: "600",
-  },
 }));
 
 export default function Invitation() {
@@ -47,15 +45,13 @@ export default function Invitation() {
     <div className={classes.invitation}>
       <Grid container>
         <Grid item xs={12} className={classes.firstGrid}>
-          <Paper elevation={0}>
-            <Typography
-              variant={"h4"}
-              component={"h1"}
-              className={classes.header}
-            >
-              The Easiest & Most Powerful Assets
-            </Typography>
-          </Paper>
+          <Typography
+            variant={"h3"}
+            component={"h1"}
+            className={classes.header}
+          >
+            Easiest & Most Powerful Assets
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <Grid container direction={"row"}>
@@ -66,34 +62,32 @@ export default function Invitation() {
               </video>
             </Grid>
             <Grid item sm={12} md={6}>
-              <Paper elevation={1} className={classes.paperClip}>
-                <Grid
-                  container
-                  justify={"center"}
-                  alignItems={"center"}
-                  className={classes.paper}
-                >
-                  <Grid xs={12}>
-                    <Typography variant={"h5"} component={"h4"}>
-                      Explore an ever-expanding variety of cryptocurrencies, and
-                      buy and invest the underlying asset on BlockChain Mining
-                      Tech Cryptocurrency Investment Platform. Build your
-                      crypto-based portfolio and enjoy benefits not offered by
-                      most exchanges, such as near-immediate execution of market
-                      orders.
-                    </Typography>
-                  </Grid>
-                  <Grid xs={12}>
-                    <Button
-                      variant={"contained"}
-                      color={"primary"}
-                      className={classes.button}
-                    >
-                      Create an Account
-                    </Button>
-                  </Grid>
+              <Grid
+                container
+                justify={"center"}
+                alignItems={"center"}
+                className={classes.paper}
+              >
+                <Grid xs={12}>
+                  <Typography variant={"h5"} component={"h4"}>
+                    Explore an ever-expanding variety of cryptocurrencies, and
+                    buy and invest the underlying asset on BlockChain Mining
+                    Tech Cryptocurrency Investment Platform. Build your
+                    crypto-based portfolio and enjoy benefits not offered by
+                    most exchanges, such as near-immediate execution of market
+                    orders.
+                  </Typography>
                 </Grid>
-              </Paper>
+                <Grid xs={12}>
+                  <Button
+                    variant={"contained"}
+                    color={"primary"}
+                    className={classes.button}
+                  >
+                    Create an Account
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

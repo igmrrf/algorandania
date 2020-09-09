@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   heroContent: {
     padding: theme.spacing(8, 0, 6),
+    color: "white",
   },
   cardHeader: {
     backgroundColor:
@@ -110,79 +111,77 @@ export default function Plans() {
   return (
     <React.Fragment>
       <CssBaseline />
-
-      <Container maxWidth="md" component="main" className={classes.heroContent}>
-        <Typography
-          component="h1"
-          variant="h4"
-          align="center"
-          color="textPrimary"
-          gutterBottom
+      <div style={{ background: "rgb(18,29,51)", paddingBottom: "10vh" }}>
+        <Container
+          maxWidth="md"
+          component="main"
+          className={classes.heroContent}
         >
-          Our Plans
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          Our aim is to reduce our negative social, economic and environmental
-          footprints while enhancing the overall value we create as a leading
-          brand
-        </Typography>
-      </Container>
-      {/* End hero unit */}
-      <Container maxWidth="md" component="main">
-        <Grid container spacing={2} alignItems="flex-end">
-          {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
-            <Grid item key={tier.title} xs={12} sm={6} md={3}>
-              <Card>
-                <CardHeader
-                  title={tier.title}
-                  subheader={tier.subheader}
-                  titleTypographyProps={{ align: "center" }}
-                  subheaderTypographyProps={{ align: "center" }}
-                  action={tier.title === "Pro" ? <StarIcon /> : null}
-                  className={classes.cardHeader}
-                />
-                <CardContent>
-                  <div className={classes.cardPricing}>
-                    <Typography component="h2" variant="h4" color="textPrimary">
-                      ${tier.price}
-                    </Typography>
-                  </div>
-                  <Divider />
-                  <ul>
-                    {tier.description.map((line) => (
+          <Typography component="h1" variant="h3" align="center" gutterBottom>
+            Our Plans
+          </Typography>
+          <Typography variant="subtitle1" align="center" component="p">
+            Our aim is to reduce our negative social, economic and environmental
+            footprints while enhancing the overall value we create as a leading
+            brand
+          </Typography>
+        </Container>
+        {/* End hero unit */}
+        <Container maxWidth="md" component="main">
+          <Grid container spacing={2} alignItems="flex-end">
+            {tiers.map((tier) => (
+              // Enterprise card is full width at sm breakpoint
+              <Grid item key={tier.title} xs={12} sm={6} md={3}>
+                <Card>
+                  <CardHeader
+                    title={tier.title}
+                    subheader={tier.subheader}
+                    titleTypographyProps={{ align: "center" }}
+                    subheaderTypographyProps={{ align: "center" }}
+                    action={tier.title === "Pro" ? <StarIcon /> : null}
+                    className={classes.cardHeader}
+                  />
+                  <CardContent>
+                    <div className={classes.cardPricing}>
                       <Typography
-                        component="li"
-                        variant="subtitle1"
-                        align="center"
-                        key={line}
-                        className={classes.listItem}
+                        component="h2"
+                        variant="h4"
+                        color="textPrimary"
                       >
-                        {line}
-                        <Divider />
+                        ${tier.price}
                       </Typography>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    fullWidth
-                    variant={tier.buttonVariant}
-                    color="primary"
-                  >
-                    {tier.buttonText}
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+                    </div>
+                    <Divider />
+                    <ul>
+                      {tier.description.map((line) => (
+                        <Typography
+                          component="li"
+                          variant="subtitle1"
+                          align="center"
+                          key={line}
+                          className={classes.listItem}
+                        >
+                          {line}
+                          <Divider />
+                        </Typography>
+                      ))}
+                    </ul>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      fullWidth
+                      variant={tier.buttonVariant}
+                      color="primary"
+                    >
+                      {tier.buttonText}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </div>
     </React.Fragment>
   );
 }

@@ -25,7 +25,8 @@ const theme = createMuiTheme({
 
     h3: {
       fontWeight: 400,
-      fontSize: "2.7rem",
+      fontSize: "2.25rem",
+      fontFamily: "Fira Code",
       lineHeight: 1.167,
       letterSpacing: "0em",
     },
@@ -43,6 +44,7 @@ const theme = createMuiTheme({
     },
     h6: {
       fontWeight: 500,
+      fontFamily: "FiraCode",
       fontSize: "1rem",
       lineHeight: 1.6,
       letterSpacing: "0.0075em",
