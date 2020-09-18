@@ -6,7 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PropTypes from "prop-types";
 
 function ListItemLink(props) {
-  const { icon, primary, to } = props;
+  const { icon, primary, to, className } = props;
 
   const CustomLink = React.useMemo(
     () =>
@@ -17,7 +17,7 @@ function ListItemLink(props) {
   );
 
   return (
-    <li>
+    <li className={className}>
       <ListItem button component={CustomLink}>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={primary} />

@@ -120,7 +120,7 @@ export default function Dashboard() {
       <CssBaseline />
       <AppBar
         position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
+        className={clsx(classes.appBar, zopen && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
           <IconButton

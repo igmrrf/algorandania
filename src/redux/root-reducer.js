@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
-import { userReducer } from "./reducers";
-import { loggedIn } from "./reducers";
 import storage from "redux-persist/lib/storage";
+import userReducer from "./user/user.reducer";
+import adminReducer from "./admin";
+import landingReducer from "./landing";
 
 const persistConfig = {
   key: "root",
@@ -11,7 +12,8 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   user: userReducer,
-  loggedIn,
+  landing: landingReducer,
+  admin: adminReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
