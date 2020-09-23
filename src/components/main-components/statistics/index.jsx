@@ -55,8 +55,8 @@ const Statistics = () => {
         Our Numbers
       </Typography>
       <Grid container justify={"center"} alignItems={"center"}>
-        {numbers.map((each) => (
-          <Grid item xs={10} md={3}>
+        {numbers.map((each, i) => (
+          <Grid item xs={10} md={3} key={i}>
             <Paper className={classes.card}>
               <Typography variant={"h3"} component={"h3"}>
                 {each.total}

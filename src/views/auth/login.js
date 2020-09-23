@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import p2p from "../../static/img/p2pblue.svg";
 import { Link as RouterLink } from "react-router-dom";
+import { authStartAsync } from "../../redux/user-reducer/user.actions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,8 +49,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+function Login({ authStartAsync }) {
   const classes = useStyles();
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+    console.log(user);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Help");
+    const data = user;
+    authStartAsync(data);
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -62,23 +80,24 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
+              onChange={handleChange}
               label="Email Address"
               name="email"
               autoComplete="email"
-              autoFocus
             />
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
+              onChange={handleChange}
               name="password"
               label="Password"
               type="password"
@@ -120,3 +139,9 @@ export default function Login() {
     </Grid>
   );
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  authStartAsync: (data) => dispatch(authStartAsync(data)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -15,7 +15,9 @@ import Container from "@material-ui/core/Container";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import mainListItems from "./listItems";
 import Copyright from "../../../components/shared-components/copyright";
 
 const drawerWidth = 240;
@@ -101,14 +103,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminLayout({ children }) {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -139,11 +149,28 @@ export default function AdminLayout({ children }) {
           >
             Dashboard
           </Typography>
-          <IconButton color="inherit">
+          <IconButton
+            color="inherit"
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
+
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -160,8 +187,6 @@ export default function AdminLayout({ children }) {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

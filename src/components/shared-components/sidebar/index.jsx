@@ -73,9 +73,8 @@ export default function SideBarShared() {
     >
       <List className={classes.links}>
         {Links.map((link) => (
-          <div>
+          <div key={link.primary}>
             <ListItemLink
-              key={link.primary}
               to={link.to}
               primary={link.primary}
               icon={link.icon}

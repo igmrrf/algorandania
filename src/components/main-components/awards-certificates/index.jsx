@@ -65,7 +65,7 @@ const Awards = () => {
       </Typography>
       <Grid container justify={"center"} alignItems={"center"}>
         {awards.map((award) => (
-          <Grid item xs={10} md={2} xl={2}>
+          <Grid item xs={10} md={2} xl={2} key={award.award}>
             <Paper className={classes.card} elevation={1}>
               <Typography variant={"h6 "} component={"h3"}>
                 {award.award}

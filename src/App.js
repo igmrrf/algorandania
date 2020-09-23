@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 import routes, { renderRoutes } from "./routes";
 import { createStyles, makeStyles } from "@material-ui/core";
+import { connect } from "react-redux";
+import { getUserDetailsStartAsync } from "./redux/user-reducer/user.actions";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -38,7 +40,11 @@ const GlobalStyles = () => {
   return null;
 };
 
-const App = () => {
+const App = ({ getUserDetailsStartAsync }) => {
+  useEffect(() => {
+    const id = localStorage.getItem("_id");
+    getUserDetailsStartAsync(id);
+  }, [getUserDetailsStartAsync]);
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider dense maxSnack={3}>
@@ -51,4 +57,8 @@ const App = () => {
   );
 };
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  getUserDetailsStartAsync: (id) => dispatch(getUserDetailsStartAsync(id)),
+});
+
+export default connect(null, mapDispatchToProps)(App);

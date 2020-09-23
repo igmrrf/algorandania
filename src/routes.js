@@ -4,11 +4,10 @@ import UserLayout from "./containers/layouts/user-layout";
 import AdminLayout from "./containers/layouts/admin-layout";
 import MainLayout from "./containers/layouts/main-layout";
 import Landing from "./views/guest/home";
-import AdminDashboard from "./views/guest/home";
-import UserDashboard from "./views/guest/home";
 import LoadingScreen from "./components/shared-components/loading-screen";
 import GuestGuard from "./helpers/guest-guard";
-import AuthGuard from "./helpers/auth-guard";
+import UserGuard from "./helpers/user-guard";
+import AdminGuard from "./helpers/admin-guard";
 
 export const renderRoutes = (routes = []) => (
   <Suspense fallback={<LoadingScreen />}>
@@ -26,7 +25,7 @@ export const renderRoutes = (routes = []) => (
               <Guard>
                 <Layout>
                   {route.routes ? (
-                    renderRoutes(routes)
+                    renderRoutes(route.routes)
                   ) : (
                     <Component {...props} />
                   )}
@@ -42,12 +41,6 @@ export const renderRoutes = (routes = []) => (
 
 const routes = [
   // Routes with no Layout
-  {
-    exact: true,
-    path: "/",
-    layout: MainLayout,
-    component: Landing,
-  },
   {
     exact: true,
     path: "/404",
@@ -86,103 +79,160 @@ const routes = [
     path: "/forgot-password-unprotected",
     component: lazy(() => import("./views/auth/forgot-password")),
   },
+
+  //User Routes
   {
-    exact: true,
+    path: "/account",
+    guard: UserGuard,
+    layout: UserLayout,
+    routes: [
+      {
+        exact: true,
+        path: "/account/dashboard",
+        component: lazy(() => import("./views/account/dashboard")),
+      },
+      {
+        exact: true,
+        path: "/account/deposit",
+        component: lazy(() => import("./views/account/deposit")),
+      },
+      {
+        exact: true,
+        path: "/account/settings",
+        component: lazy(() => import("./views/account/settings")),
+      },
+      {
+        exact: true,
+        path: "/account/withdrawal",
+        component: lazy(() => import("./views/account/withdrawal")),
+      },
+      {
+        exact: true,
+        path: "/account/support",
+        component: lazy(() => import("./views/account/support")),
+      },
+      {
+        exact: true,
+        path: "/account/transactions",
+        component: lazy(() => import("./views/account/transactions")),
+      },
+      {
+        exact: true,
+        path: "/account/referral",
+        component: lazy(() => import("./views/account/referral")),
+      },
+      {
+        exact: true,
+        path: "/account/balances",
+        component: lazy(() => import("./views/account/balances")),
+      },
+    ],
+  },
+
+  //Admin Routes
+  {
+    path: "/app",
+    guard: AdminGuard,
+    layout: AdminLayout,
+    routes: [
+      {
+        exact: true,
+        path: "/app/dashboard",
+        component: lazy(() => import("./views/admin/dashboard")),
+      },
+      {
+        exact: true,
+        path: "/app/users",
+        component: lazy(() => import("./views/admin/users")),
+      },
+
+      {
+        exact: true,
+        path: "/app/users/view/:id",
+        component: lazy(() => import("./views/admin/user-view-edit")),
+      },
+      {
+        exact: true,
+        path: "/app/transactions",
+        component: lazy(() => import("./views/admin/transactions")),
+      },
+      {
+        exact: true,
+        path: "/app/transactions/edit/:id",
+        component: lazy(() => import("./views/admin/transactions-edit")),
+      },
+      {
+        exact: true,
+        path: "/app/banks",
+        component: lazy(() => import("./views/admin/banks")),
+      },
+      {
+        exact: true,
+        path: "/app/banks/view/:id",
+        component: lazy(() => import("./views/admin/bank-view-edit")),
+      },
+      {
+        exact: true,
+        path: "/app/deposited",
+        component: lazy(() => import("./views/admin/deposited")),
+      },
+      {
+        exact: true,
+        path: "/app/support",
+        component: lazy(() => import("./views/admin/support")),
+      },
+      {
+        exact: true,
+        path: "/app/support/reply/:id",
+        component: lazy(() => import("./views/admin/support-response")),
+      },
+      {
+        exact: true,
+        path: "/app/settings",
+        component: lazy(() => import("./views/admin/settings")),
+      },
+    ],
+  },
+
+  // Landing Routes
+  {
+    path: "*",
     layout: MainLayout,
-    path: "/kyc-policy",
-    component: lazy(() => import("./views/guest/kyc-policy")),
-  },
-  {
-    exact: true,
-    layout: MainLayout,
-    path: "/privacy-policy",
-    component: lazy(() => import("./views/guest/privacy-policy")),
-  },
-  {
-    exact: true,
-    layout: MainLayout,
-    path: "/payment-policy",
-    component: lazy(() => import("./views/guest/payment-policy")),
-  },
-  {
-    exact: true,
-    layout: MainLayout,
-    path: "/contact",
-    component: lazy(() => import("./views/guest/contact")),
-  },
-  {
-    exact: true,
-    layout: MainLayout,
-    path: "/pricing",
-    component: lazy(() => import("./views/guest/pricing")),
-  },
-  // Admin Routes
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/dashboard",
-    component: lazy(() => import("./views/admin/dashboard")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/users",
-    component: lazy(() => import("./views/admin/users")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/users/view/:id",
-    component: lazy(() => import("./views/admin/user-view-edit")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/deposited",
-    component: lazy(() => import("./views/admin/deposited")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/banks",
-    component: lazy(() => import("./views/admin/banks")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/banks/view/:id",
-    component: lazy(() => import("./views/admin/bank-view-edit")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/transactions",
-    component: lazy(() => import("./views/admin/transactions")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/transactions/view/:id",
-    component: lazy(() => import("./views/admin/transactions-edit")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/support",
-    component: lazy(() => import("./views/admin/support")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    path: "/app/support/view/:id",
-    component: lazy(() => import("./views/admin/support-response")),
-  },
-  {
-    exact: true,
-    layout: AdminLayout,
-    guard: AuthGuard,
-    path: "/app/settings",
-    component: lazy(() => import("./views/admin/settings")),
+    routes: [
+      {
+        exact: true,
+        path: "/",
+        component: Landing,
+      },
+      {
+        exact: true,
+        path: "/contact",
+        component: lazy(() => import("./views/guest/contact")),
+      },
+      {
+        exact: true,
+        path: "/pricing",
+        component: lazy(() => import("./views/guest/pricing")),
+      },
+      {
+        exact: true,
+        path: "/kyc-policy",
+        component: lazy(() => import("./views/guest/kyc-policy")),
+      },
+      {
+        exact: true,
+        path: "/privacy-policy",
+        component: lazy(() => import("./views/guest/privacy-policy")),
+      },
+      {
+        exact: true,
+        path: "/payment-policy",
+        component: lazy(() => import("./views/guest/payment-policy")),
+      },
+      {
+        component: () => <Redirect to="/404" />,
+      },
+    ],
   },
 ];
 export default routes;

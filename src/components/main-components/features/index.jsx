@@ -82,9 +82,20 @@ const Features = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Grid container wrap justify={"center"} alignItems={"center"}>
+          <Grid
+            container
+            wrap={"wrap"}
+            justify={"center"}
+            alignItems={"center"}
+          >
             {info.map((cad) => (
-              <Grid item xs={12} md={3} className={classes.features}>
+              <Grid
+                item
+                xs={12}
+                md={3}
+                key={cad.title}
+                className={classes.features}
+              >
                 <Card className={classes.card}>
                   <Icon className={classes.icon}>{cad.icon}</Icon>
 

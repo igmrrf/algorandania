@@ -1,9 +1,9 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Chart from "../../containers/admin-containers/dashboard/Chart";
-import Deposits from "../../containers/admin-containers/dashboard/Deposits";
-import Orders from "../../containers/admin-containers/dashboard/Orders";
+import Chart from "../../components/admin-components/chart";
+import Deposits from "../../components/admin-components/deposit";
+import Orders from "../../components/admin-components/orders";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
 
