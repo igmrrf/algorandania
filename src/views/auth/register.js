@@ -16,7 +16,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { createUserStartAsync } from "../../redux/user-reducer/user.actions";
+import { createUserStartAsync } from "../../redux/auth/auth.actions";
 import p2p from "../../static/img/p2pblue.svg";
 
 const useStyles = makeStyles((theme) => ({

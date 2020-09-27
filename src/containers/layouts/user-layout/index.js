@@ -230,7 +230,7 @@ function UserLayout({ children, name }) {
   );
 }
 const mapStateToProps = (state) => ({
-  name: state.user.user.name,
+  name: state.auth.data.name,
 });
 
 export default connect(mapStateToProps, null)(UserLayout);

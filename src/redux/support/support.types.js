@@ -1,0 +1,6 @@
+const SupportActionTypes = {
+  GET_SUPPORT_START: "GET_SUPPORT_START",
+  GET_SUPPORT_SUCCESS: "GET_SUPPORT_SUCCESS",
+  GET_SUPPORT_FAILURE: "GET_SUPPORT_FAILURE",
+};
+export default SupportActionTypes;

@@ -127,6 +127,6 @@ function Profile({ user }) {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user.user,
+  user: state.auth.data,
 });
 export default connect(mapStateToProps)(Profile);

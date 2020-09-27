@@ -3,25 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import CardBalance from "./card";
 import { connect } from "react-redux";
 
-const info = [
-  {
-    title: "Balance",
-    amount: 300,
-  },
-  {
-    title: "Deposits",
-    amount: 100,
-  },
-  {
-    title: "Profit",
-    amount: 200,
-  },
-  {
-    title: "Referral",
-    amount: 50,
-  },
-];
-
 function Balance({ balances }) {
   console.log(balances);
   const entries = Object.entries(balances);
@@ -38,7 +19,7 @@ function Balance({ balances }) {
 }
 
 const mapStateToProps = (state) => ({
-  balances: state.user.user.balances,
+  balances: state.auth.data.balances,
 });
 
 export default connect(mapStateToProps, null)(Balance);

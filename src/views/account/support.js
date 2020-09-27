@@ -41,7 +41,7 @@ export default function Support() {
   const classes = useStyles();
   const [support, setSupport] = useState({ message: "", id: "" });
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     axios
       .post("support", support)

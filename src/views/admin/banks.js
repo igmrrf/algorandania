@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { getAllBanksStartAsync } from "../../redux/bank/bank.actions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -35,38 +36,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export default function Banks() {
+function Banks({ banks, getAllBanksStartAsync }) {
   const classes = useStyles();
+  useEffect(() => {
+    getAllBanksStartAsync();
+  }, []);
 
   return (
     <main>
-      {/* Hero unit */}
       <div className={classes.heroContent}>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
           All User Banking Details
         </Typography>
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
-        {/* End hero unit */}
         <Grid alignItems={"center"} container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
+          {banks.map((bank) => (
+            <Grid item key={bank._id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image="https://source.unsplash.com/random"
-                  title="Image title"
-                />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Heading
+                    Name: {bank.account_name}
                   </Typography>
-                  <Typography>
-                    This is a media card. You can use this section to describe
-                    the content.
-                  </Typography>
+                  <Typography>Account: Number {bank.account_number}</Typography>
+                  <Typography>Account Type: {bank.account_type}</Typography>
+                  <Typography>Bank Name: {bank.bank_name}</Typography>
+                  <Typography>Bank Code: {bank.bank_code}</Typography>
                 </CardContent>
                 <CardActions>
                   <Button size="small" color="primary">
@@ -84,3 +79,12 @@ export default function Banks() {
     </main>
   );
 }
+const mapStateToProps = (state) => ({
+  banks: state.bank.data,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getAllBanksStartAsync: () => dispatch(getAllBanksStartAsync()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Banks);

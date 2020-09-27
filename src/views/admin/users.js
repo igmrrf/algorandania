@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,6 +8,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
+import { getAllUserDetailsStartAsync } from "../../redux/users/users.actions";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -35,14 +38,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export default function Users() {
+function Users({ users, getAllUserDetailsStartAsync }) {
   const classes = useStyles();
+
+  useEffect(() => {
+    getAllUserDetailsStartAsync();
+  });
 
   return (
     <main>
-      {/* Hero unit */}
       <div className={classes.heroContent}>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
           All User
@@ -51,8 +55,8 @@ export default function Users() {
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
+          {users.map((user) => (
+            <Grid item key={user._id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardMedia
                   className={classes.cardMedia}
@@ -61,18 +65,28 @@ export default function Users() {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Heading
+                    Name:{user.name}
                   </Typography>
-                  <Typography>
-                    This is a media card. You can use this section to describe
-                    the content.
-                  </Typography>
+                  <Typography>Email:{user.email}</Typography>
+                  <Typography>Gender:{user.gender}</Typography>
+                  <Typography>Country:{user.country}</Typography>
+                  <Typography>Mobile:{user.mobile}</Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary">
+                  <Button
+                    to={`/users/view/${user._id}`}
+                    size="small"
+                    color="primary"
+                    component={RouterLink}
+                  >
                     View
                   </Button>
-                  <Button size="small" color="primary">
+                  <Button
+                    to={`/users/view/${user._id}`}
+                    size="small"
+                    color="primary"
+                    component={RouterLink}
+                  >
                     Edit
                   </Button>
                 </CardActions>
@@ -84,3 +98,12 @@ export default function Users() {
     </main>
   );
 }
+
+const mapStateToProps = (state) => ({
+  users: state.user.data,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getAllUserDetailsStartAsync: () => dispatch(getAllUserDetailsStartAsync()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

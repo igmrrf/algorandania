@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import p2p from "../../static/img/p2pblue.svg";
 import { Link as RouterLink } from "react-router-dom";
-import { authStartAsync } from "../../redux/user-reducer/user.actions";
+import { authStartAsync } from "../../redux/auth/auth.actions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({

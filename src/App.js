@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core";
-import theme from "./theme";
+import theme from "./utils/theme";
 import routes, { renderRoutes } from "./routes";
 import { createStyles, makeStyles } from "@material-ui/core";
 import { connect } from "react-redux";
-import { getUserDetailsStartAsync } from "./redux/user-reducer/user.actions";
+import { getUserDetailsStartAsync } from "./redux/auth/auth.actions";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -40,13 +41,18 @@ const GlobalStyles = () => {
   return null;
 };
 
-const App = ({ getUserDetailsStartAsync }) => {
+const App = ({ getUserDetailsStartAsync, errorMessage, role }) => {
+  const { enqueueSnackbar } = useSnackbar;
+  console.log(role);
   useEffect(() => {
     const id = localStorage.getItem("_id");
-    getUserDetailsStartAsync(id);
-  }, [getUserDetailsStartAsync]);
+    if (!role) {
+      getUserDetailsStartAsync(id);
+    }
+  }, []);
   return (
     <ThemeProvider theme={theme}>
+      {errorMessage ? alert(errorMessage) : null}
       <SnackbarProvider dense maxSnack={3}>
         <Router>
           <GlobalStyles />
@@ -61,4 +67,9 @@ const mapDispatchToProps = (dispatch) => ({
   getUserDetailsStartAsync: (id) => dispatch(getUserDetailsStartAsync(id)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = (state) => ({
+  role: state.auth.role,
+  errorMessage: state.auth.errorMessage,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
