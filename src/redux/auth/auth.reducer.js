@@ -5,6 +5,7 @@ const initialState = {
   isFetching: false,
   data: null,
   role: null,
+  id: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -28,6 +29,25 @@ const authReducer = (state = initialState, action) => {
         isFetching: false,
         errorMessage: action.payload,
       };
+    case AuthActionTypes.AUTH_USER_START:
+      return {
+        ...state,
+        isFetching: true,
+        errorMessage: null,
+      };
+    case AuthActionTypes.AUTH_USER_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        data: { ...action.payload },
+        role: action.payload.isAdmin ? "admin" : "user",
+      };
+    case AuthActionTypes.AUTH_USER_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.payload,
+      };
     case AuthActionTypes.USER_CREATE_START:
       return {
         ...state,
@@ -39,6 +59,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         errorMessage: null,
+        id: action.payload,
       };
     case AuthActionTypes.USER_CREATE_FAILURE:
       return {

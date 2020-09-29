@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -172,6 +173,8 @@ export default function Pricing() {
                       fullWidth
                       variant={tier.buttonVariant}
                       color="primary"
+                      to={"/register"}
+                      component={RouterLink}
                     >
                       {tier.buttonText}
                     </Button>

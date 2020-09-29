@@ -10,7 +10,6 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Layers from "@material-ui/icons/Layers";
 import axios from "../../utils/axios";
-import support from "../admin/support";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,7 +38,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Support() {
   const classes = useStyles();
-  const [support, setSupport] = useState({ message: "", id: "" });
+  const [support, setSupport] = useState({
+    subject: "",
+    email: "",
+    message: "",
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -54,6 +57,9 @@ export default function Support() {
         }
       })
       .catch((err) => console.log(err.message));
+  };
+  const handleChange = ({ target: { name, value } }) => {
+    setSupport({ ...support, [name]: value });
   };
 
   return (
@@ -71,28 +77,18 @@ export default function Support() {
         <Typography component="h1" variant="h6">
           We'll get back to you as soon as possible
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={8} md={6}>
-              <TextField
-                autoComplete="first-name"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-              />
-            </Grid>
-            <Grid item xs={12} sm={8} md={6}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                id="subject"
+                label="Subject"
+                name="subject"
+                autoComplete="subject"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -104,6 +100,7 @@ export default function Support() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -116,6 +113,7 @@ export default function Support() {
                 type="text"
                 id="message"
                 autoComplete="current-message"
+                onChange={handleChange}
               />
             </Grid>
           </Grid>

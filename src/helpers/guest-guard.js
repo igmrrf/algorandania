@@ -13,6 +13,7 @@ const GuestGuard = ({ children, role }) => {
 };
 const mapStateToProps = (state) => ({
   role: state.auth.role,
+  id: state.auth.id,
 });
 
 export default connect(mapStateToProps, null)(GuestGuard);

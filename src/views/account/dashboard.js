@@ -17,7 +17,6 @@ const UserDashboard = () => {
 
   return (
     <Container maxWidth={false} className={classes.root}>
-      {/*<Header />*/}
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Balances />

@@ -3,7 +3,6 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -37,22 +36,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 function Deposited({ users, getAllUserDetailsStartAsync }) {
   const classes = useStyles();
+  let depositedUsers = [];
   useEffect(() => {
-    if (users.length > 1) {
+    if (users.length < 1) {
       getAllUserDetailsStartAsync();
     }
-  }, []);
-  const depositedUsers = users.filter(
-    (user) => user.balances.deposit.$numberDecimal > 0
-  );
+  }, [users, getAllUserDetailsStartAsync]);
+  if (users.length < 1) {
+    depositedUsers = users.filter(
+      (user) => user.balances.deposit.$numberDecimal > 0
+    );
+  }
 
   return (
     <main>
-      {/* Hero unit */}
       <div className={classes.heroContent}>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
           All Deposited Users $ Revenue
@@ -61,7 +60,7 @@ function Deposited({ users, getAllUserDetailsStartAsync }) {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
           {depositedUsers.map((user) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
+            <Grid item key={user._id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">

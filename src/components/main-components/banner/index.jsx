@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import btc from "../../../static/img/trade.png";
 import Icon from "@material-ui/core/Icon";
+import { Link as RouterLink } from "react-router-dom";
+import axios from "../../../utils/axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +40,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Banner = () => {
   const classes = useStyles();
+  const [BTC, setBTC] = useState("");
+  const [YFI, setYFI] = useState("");
+  const [ETH, setETH] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Cyearn-finance&vs_currencies=usd"
+      )
+      .then((res) => {
+        const data = res.data;
+        console.log(res.data);
+        setBTC(data.bitcoin.usd);
+        setYFI(data["yearn-finance"].usd);
+        setETH(data.ethereum.usd);
+      });
+  }, []);
   return (
     <Grid
       container
@@ -75,6 +94,8 @@ const Banner = () => {
               variant={"contained"}
               color={"primary"}
               className={classes.button}
+              to={"/register"}
+              component={RouterLink}
             >
               Get Started
             </Button>
@@ -90,21 +111,33 @@ const Banner = () => {
               <Grid item xs={12} sm={5} md={4}>
                 <Paper className={classes.cryptoItem}>
                   <Typography variant={"h6"} component={"h6"}>
-                    <Icon className={"fab fa-bitcoin"} /> $11,765.09
+                    <Icon
+                      className={"fab fa-bitcoin"}
+                      style={{ marginBottom: -5 }}
+                    />{" "}
+                    ${BTC}
                   </Typography>
                 </Paper>
               </Grid>
               <Grid item xs={10} sm={5} md={3}>
                 <Paper className={classes.cryptoItem}>
                   <Typography variant={"h6"} component={"h6"}>
-                    <Icon className={"fab fa-ethereum"} /> $430.89
+                    <Icon
+                      className={"fab fa-ethereum"}
+                      style={{ marginBottom: -5 }}
+                    />{" "}
+                    ${ETH}
                   </Typography>
                 </Paper>
               </Grid>
               <Grid item xs={12} sm={5} md={3}>
                 <Paper className={classes.cryptoItem}>
                   <Typography variant={"h6"} component={"h6"}>
-                    <Icon className={"fas fa-yen-sign"} /> $32,049.52
+                    <Icon
+                      className={"fas fa-yen-sign"}
+                      style={{ marginBottom: -5 }}
+                    />{" "}
+                    ${YFI}
                   </Typography>
                 </Paper>
               </Grid>

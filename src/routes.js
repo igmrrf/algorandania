@@ -158,11 +158,6 @@ const routes = [
       },
       {
         exact: true,
-        path: "/app/transactions/edit/:id",
-        component: lazy(() => import("./views/admin/transactions-edit")),
-      },
-      {
-        exact: true,
         path: "/app/banks",
         component: lazy(() => import("./views/admin/banks")),
       },

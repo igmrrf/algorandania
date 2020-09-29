@@ -26,15 +26,15 @@ const useStyles = makeStyles((theme) => ({
 
 const numbers = [
   {
-    total: "2,92+",
+    total: "2.92+",
     quantity: "TRILLION USD IN TRADING VOLUME",
   },
   {
-    total: "6,3+",
+    total: "6.3+",
     quantity: "BILLION ORDERS EXECUTED",
   },
   {
-    total: "363,5+",
+    total: "363.5+",
     quantity: "MILLION TRADERS SERVED",
   },
   {

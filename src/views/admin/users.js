@@ -42,8 +42,10 @@ function Users({ users, getAllUserDetailsStartAsync }) {
   const classes = useStyles();
 
   useEffect(() => {
-    getAllUserDetailsStartAsync();
-  });
+    if (users.length < 1) {
+      getAllUserDetailsStartAsync();
+    }
+  }, [users, getAllUserDetailsStartAsync]);
 
   return (
     <main>

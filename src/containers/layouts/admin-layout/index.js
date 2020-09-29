@@ -19,6 +19,9 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import mainListItems from "./listItems";
 import Copyright from "../../../components/shared-components/copyright";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import { Link as RouterLink } from "react-router-dom";
+import { connect } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -101,11 +104,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdminLayout({ children }) {
+function titleCase(str) {
+  let splitStr = str.toLowerCase().split(" ");
+  for (let i = 0; i < splitStr.length; i++) {
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  return splitStr.join(" ");
+}
+
+function AdminLayout({ children, name }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
 
+  const headerName = titleCase(name);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -118,6 +131,14 @@ export default function AdminLayout({ children }) {
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const logOut = () => {
+    handleClose();
+    localStorage.removeItem("x-auth-token");
+    localStorage.removeItem("_id");
+    localStorage.removeItem("persist:root");
+
+    window.location.href = "/";
   };
 
   return (
@@ -159,6 +180,16 @@ export default function AdminLayout({ children }) {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <IconButton
+            color="inherit"
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
+            <Typography variant={"body1"}>
+              <AccountCircle fontSize={"inherit"} /> {headerName}
+            </Typography>
+          </IconButton>
 
           <Menu
             id="simple-menu"
@@ -167,9 +198,21 @@ export default function AdminLayout({ children }) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem
+              onClick={handleClose}
+              to={"/app/settings"}
+              component={RouterLink}
+            >
+              Profile
+            </MenuItem>
+            <MenuItem
+              onClick={handleClose}
+              to={"/app/transactions"}
+              component={RouterLink}
+            >
+              Transactions
+            </MenuItem>
+            <MenuItem onClick={logOut}>Logout</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
@@ -200,3 +243,8 @@ export default function AdminLayout({ children }) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  name: state.auth.data.name,
+});
+export default connect(mapStateToProps, null)(AdminLayout);

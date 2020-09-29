@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,6 +8,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Container, Box, Typography } from "@material-ui/core";
+import { connect } from "react-redux";
+import { getReferralsStartAsync } from "../../redux/referral/referrals.actions";
 
 const useStyles = makeStyles({
   table: {
@@ -15,22 +17,13 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(sn, name, status, bonus) {
-  return { sn, name, status, bonus };
-}
-
 const headings = ["S/N", "Name", "Status", "Bonus"];
 
-const rows = [
-  createData(1, "Frozen yoghurt", "Completed", 50),
-  createData(2, "Ice cream sandwich", "Pending", 0.0),
-  createData(3, "Eclair Cake", "Completed", 10.5),
-  createData(4, "Cupcake Marshmallow", "Completed", 3.7),
-  createData(5, "Gingerbread Sauce", "Pending", 16.0),
-];
-
-export default function Referrals() {
+function Referrals({ referrals, getReferralsStartAsync }) {
   const classes = useStyles();
+  useEffect(() => {
+    getReferralsStartAsync();
+  }, [getReferralsStartAsync]);
 
   return (
     <Container>
@@ -50,14 +43,14 @@ export default function Referrals() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.sn}>
+            {referrals.map((referral) => (
+              <TableRow key={referral._id}>
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {referral.sn}
                 </TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.status}</TableCell>
-                <TableCell>{row.bonus}</TableCell>
+                <TableCell>{referral.name}</TableCell>
+                <TableCell>{referral.plan}</TableCell>
+                <TableCell>{referral.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -66,3 +59,12 @@ export default function Referrals() {
     </Container>
   );
 }
+const mapDispatchToProps = (dispatch) => ({
+  getReferralsStartAsync: () => dispatch(getReferralsStartAsync()),
+});
+
+const mapStateToProps = (state) => ({
+  referrals: state.referral.data,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Referrals);

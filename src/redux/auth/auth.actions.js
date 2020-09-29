@@ -1,6 +1,6 @@
 import AuthActionTypes from "./auth.types";
 import axios from "../../utils/axios";
-import id from "../../utils/constants";
+import { id } from "../../utils/constants";
 
 const authStart = () => ({
   type: AuthActionTypes.AUTH_USER_START,
@@ -47,7 +47,7 @@ const getUserDetailsFailure = (message) => ({
   payload: message,
 });
 
-export const getUserDetailsStartAsync = (id) => {
+export const getUserDetailsStartAsync = () => {
   return (dispatch) => {
     dispatch(getUserDetailsStart());
     axios
@@ -65,8 +65,9 @@ const userCreateStart = () => ({
   type: AuthActionTypes.USER_CREATE_START,
 });
 
-const userCreateSuccess = () => ({
+const userCreateSuccess = (id) => ({
   type: AuthActionTypes.USER_CREATE_SUCCESS,
+  payload: id,
 });
 
 const userCreateFailure = (message) => ({
@@ -79,16 +80,13 @@ export const createUserStartAsync = (createDetails) => {
     dispatch(userCreateStart());
     axios
       .post("users", createDetails)
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
         const user = res.data;
         const token = res.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
         localStorage.setItem("_id", user._id);
-        dispatch(userCreateSuccess(user));
-        setTimeout(() => {
-          dispatch(getUserDetailsStartAsync(user._id));
-        }, 1000);
+        dispatch(userCreateSuccess(user._id));
       })
       .catch((error) => dispatch(userCreateFailure(error.message)));
   };

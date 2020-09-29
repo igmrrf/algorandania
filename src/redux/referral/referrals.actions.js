@@ -1,6 +1,6 @@
 import ReferralTypes from "./referrals.types";
-import axios from "../../../utils/axios";
-import { token, id } from "../../../utils/constants";
+import axios from "../../utils/axios";
+import { id } from "../../utils/constants";
 
 //GETTING referralS
 const getReferralsStart = () => ({

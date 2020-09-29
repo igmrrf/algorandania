@@ -9,25 +9,41 @@ import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import MonetizationOnOutlined from "@material-ui/icons/MonetizationOnOutlined";
 
 const NavigationList = [
-  { title: "Dashboard", to: "/account/dashboard", icon: <DashboardIcon /> },
-  { title: "Deposit", to: "/account/deposit", icon: <AccountBalanceIcon /> },
+  {
+    title: "Dashboard",
+    to: "/account/dashboard",
+    icon: <DashboardIcon color={"secondary"} />,
+  },
+  {
+    title: "Deposit",
+    to: "/account/deposit",
+    icon: <AccountBalanceIcon color={"secondary"} />,
+  },
   {
     title: "Withdraw",
     to: "/account/withdrawal",
-    icon: <MonetizationOnOutlined />,
+    icon: <MonetizationOnOutlined color={"secondary"} />,
   },
   {
     title: "Referral",
     to: "/account/referral",
-    icon: <PeopleIcon />,
+    icon: <PeopleIcon color={"secondary"} />,
   },
   {
     title: "Transactions",
     to: "/account/transactions",
-    icon: <BarChartIcon />,
+    icon: <BarChartIcon color={"secondary"} />,
   },
-  { title: "Support", to: "/account/support", icon: <LayersIcon /> },
-  { title: "Settings", to: "/account/settings", icon: <Settings /> },
+  {
+    title: "Support",
+    to: "/account/support",
+    icon: <LayersIcon color={"secondary"} />,
+  },
+  {
+    title: "Settings",
+    to: "/account/settings",
+    icon: <Settings color={"secondary"} />,
+  },
 ];
 
 export const mainListItems = (

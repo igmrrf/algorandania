@@ -45,7 +45,7 @@ const updateUserFailure = (message) => ({
   payload: message,
 });
 
-export const updateUserStartAsync = (id = id, updateDetails) => {
+export const updateUserStartAsync = (updateDetails) => {
   return (dispatch) => {
     dispatch(updateUserStart());
     axios

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,6 +8,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Container, Box, Typography } from "@material-ui/core";
+import { connect } from "react-redux";
+import { getTransactionsStartAsync } from "../../redux/transaction/transactions.actions";
 
 const useStyles = makeStyles({
   table: {
@@ -15,20 +17,13 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(sn, type, amount, date, status) {
-  return { sn, type, amount, date, status };
-}
-const rows = [
-  createData(1, "Deposit", 600.0, "3rd January 2020", "Pending"),
-  createData(2, "Withdrawal", 900.0, "24th May 2020", "Success"),
-  createData(3, "Deposit", 160.0, "9th June 2020", "Pending"),
-  createData(4, "Deposit", 300.7, "12th February 2020", "Success"),
-  createData(5, "Withdrawal", 700.0, "24th May 2020", "Success"),
-];
 const headings = ["S/N", "Type", "Amount", "Date", "Status"];
 
-export default function Transactions() {
+function Transactions({ transactions, getTransactionsStartAsync }) {
   const classes = useStyles();
+  useEffect(() => {
+    getTransactionsStartAsync();
+  }, [getTransactionsStartAsync]);
 
   return (
     <Container>
@@ -48,15 +43,15 @@ export default function Transactions() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.sn}>
+            {transactions.map((transaction) => (
+              <TableRow key={transaction._id}>
                 <TableCell component="th" scope="row">
-                  {row.sn}
+                  {transaction.sn}
                 </TableCell>
-                <TableCell>{row.type}</TableCell>
-                <TableCell>{row.amount}</TableCell>
-                <TableCell>{row.date}</TableCell>
-                <TableCell>{row.status}</TableCell>
+                <TableCell>{transaction.type}</TableCell>
+                <TableCell>{transaction.amount}</TableCell>
+                <TableCell>{transaction.date}</TableCell>
+                <TableCell>{transaction.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -65,3 +60,12 @@ export default function Transactions() {
     </Container>
   );
 }
+const mapStateToProps = (state) => ({
+  transactions: state.transaction.data,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getTransactionsStartAsync: () => dispatch(getTransactionsStartAsync()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

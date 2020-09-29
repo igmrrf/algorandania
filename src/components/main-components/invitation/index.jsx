@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CFD from "../../../static/vidoes/crypto.mp4";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   invitation: {
@@ -82,6 +83,8 @@ export default function Invitation() {
                     variant={"contained"}
                     color={"primary"}
                     className={classes.button}
+                    to={"/register"}
+                    component={RouterLink}
                   >
                     Create an Account
                   </Button>

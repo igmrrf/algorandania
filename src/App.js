@@ -43,16 +43,17 @@ const GlobalStyles = () => {
 
 const App = ({ getUserDetailsStartAsync, errorMessage, role }) => {
   const { enqueueSnackbar } = useSnackbar;
-  console.log(role);
   useEffect(() => {
     const id = localStorage.getItem("_id");
-    if (!role) {
+    if (id && !role) {
       getUserDetailsStartAsync(id);
     }
-  }, []);
+  }, [role, getUserDetailsStartAsync]);
   return (
     <ThemeProvider theme={theme}>
-      {errorMessage ? alert(errorMessage) : null}
+      {errorMessage
+        ? enqueueSnackbar(errorMessage, { variant: "warning" })
+        : null}
       <SnackbarProvider dense maxSnack={3}>
         <Router>
           <GlobalStyles />

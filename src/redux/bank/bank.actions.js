@@ -51,7 +51,7 @@ export const bankCreateStartAsync = (bankDetails) => {
       .post("banks/" + id, { ...bankDetails })
       .then((res) => {
         const bank = res.data.data;
-        dispatch(bankCreateSuccess(user));
+        dispatch(bankCreateSuccess(bank));
       })
       .catch((error) => dispatch(bankCreateFailure(error.message)));
   };

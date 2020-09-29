@@ -123,7 +123,10 @@ function UserLayout({ children, name }) {
 
   const logOut = () => {
     handleClose();
-    localStorage.removeItem("token");
+    localStorage.removeItem("x-auth-token");
+    localStorage.removeItem("_id");
+    localStorage.removeItem("persist:root");
+
     window.location.href = "/";
   };
 
@@ -221,10 +224,10 @@ function UserLayout({ children, name }) {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           {children}
-          <Box pt={4}>
-            <Copyright />
-          </Box>
         </Container>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
       </main>
     </div>
   );

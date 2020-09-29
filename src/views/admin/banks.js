@@ -40,7 +40,7 @@ function Banks({ banks, getAllBanksStartAsync }) {
   const classes = useStyles();
   useEffect(() => {
     getAllBanksStartAsync();
-  }, []);
+  }, [getAllBanksStartAsync]);
 
   return (
     <main>
