@@ -62,7 +62,7 @@ const UploadReceipt = () => {
                 <option value={"Starter"}>Starter</option>
                 <option value={"Basic"}>Basic</option>
                 <option value={"Professional"}>Professional</option>
-                <option value={"Executive"}>Executive"</option>
+                <option value={"Executive"}>Executive</option>
               </Select>
             </FormControl>
           </Grid>

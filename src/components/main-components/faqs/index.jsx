@@ -6,6 +6,8 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +61,7 @@ export default function Faqs() {
               id="panel1a-header"
             >
               <Typography className={classes.heading}>
-                What is Bitcoin
+                What is Bitcoin?
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -78,7 +80,7 @@ export default function Faqs() {
               id="panel2a-header"
             >
               <Typography className={classes.heading}>
-                How Long is BCMT in Business
+                How Long has BCMT been in Business?
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -94,12 +96,24 @@ export default function Faqs() {
               aria-controls="panel2a-content"
               id="panel2a-header"
             >
-              <Typography className={classes.heading}>How To Invest</Typography>
+              <Typography className={classes.heading}>
+                How To Invest?
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Simply follow the steps after this content below
+                Simply follow the steps after this content below. or{" "}
+                <span color={"secondary"}>Click on</span>
               </Typography>
+              <Button
+                color={"primary"}
+                variant={"contained"}
+                to={"/register"}
+                component={RouterLink}
+                style={{ marginLeft: 20 }}
+              >
+                Get Started
+              </Button>
             </AccordionDetails>
           </Accordion>
           <Accordion expanded={expanded === "4"} onChange={handleChange("4")}>
@@ -109,7 +123,7 @@ export default function Faqs() {
               id="panel1a-header"
             >
               <Typography className={classes.heading}>
-                Are we Register Legally
+                Are we Registered Legally?
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -117,7 +131,7 @@ export default function Faqs() {
                 Blockchain is legally registered to function internationally
                 except countries that ban Crypto currencies. If you fall within
                 that category, then you can access support to invest in another
-                asset within our catalogue
+                asset within our catalogue.
               </Typography>
             </AccordionDetails>
           </Accordion>

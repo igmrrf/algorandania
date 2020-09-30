@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -126,11 +127,9 @@ export default function Plans() {
             brand
           </Typography>
         </Container>
-        {/* End hero unit */}
-        <Container maxWidth="md" component="main">
+        <Container component="main">
           <Grid container spacing={2} alignItems="flex-end">
             {tiers.map((tier) => (
-              // Enterprise card is full width at sm breakpoint
               <Grid item key={tier.title} xs={12} sm={6} md={3}>
                 <Card>
                   <CardHeader
@@ -172,6 +171,8 @@ export default function Plans() {
                       fullWidth
                       variant={tier.buttonVariant}
                       color="primary"
+                      to={"/register"}
+                      component={RouterLink}
                     >
                       {tier.buttonText}
                     </Button>

@@ -26,7 +26,9 @@ export const getAllUserDetailsStartAsync = () => {
         const users = res.data;
         dispatch(getAllUserDetailsSuccess(users));
       })
-      .catch((error) => dispatch(getAllUserDetailsFailure(error.message)));
+      .catch((error) =>
+        dispatch(getAllUserDetailsFailure(error.response.data))
+      );
   };
 };
 
@@ -54,6 +56,6 @@ export const updateUserStartAsync = (updateDetails) => {
         const user = res.data;
         dispatch(updateUserSuccess(user));
       })
-      .catch((error) => dispatch(updateUserFailure(error.message)));
+      .catch((error) => dispatch(updateUserFailure(error.response.data)));
   };
 };

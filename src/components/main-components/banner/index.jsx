@@ -38,6 +38,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const convertThousand = (num) => {
+  const remainder = num % 1000;
+  const main = Math.floor(num / 1000);
+  if (main) {
+    return `${main},${remainder.toFixed(2)}`;
+  }
+  return remainder.toFixed(2);
+};
+
 const Banner = () => {
   const classes = useStyles();
   const [BTC, setBTC] = useState("");
@@ -52,9 +61,9 @@ const Banner = () => {
       .then((res) => {
         const data = res.data;
         console.log(res.data);
-        setBTC(data.bitcoin.usd);
-        setYFI(data["yearn-finance"].usd);
-        setETH(data.ethereum.usd);
+        setBTC(convertThousand(data.bitcoin.usd));
+        setYFI(convertThousand(data["yearn-finance"].usd));
+        setETH(convertThousand(data.ethereum.usd));
       });
   }, []);
   return (

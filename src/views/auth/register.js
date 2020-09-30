@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,6 +18,8 @@ import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { createUserStartAsync } from "../../redux/auth/auth.actions";
 import p2p from "../../static/img/p2pblue.svg";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,8 +52,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ createUserStartAsync }) {
+function SignUp({ createUserStartAsync, isFetching, errorMessage }) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -65,12 +68,18 @@ function SignUp({ createUserStartAsync }) {
     setUser({ ...user, [event.target.name]: event.target.value });
     console.log(user);
   };
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Help");
-    const data = user;
-    createUserStartAsync(data);
+    createUserStartAsync(user);
   };
 
   return (
@@ -209,7 +218,11 @@ function SignUp({ createUserStartAsync }) {
               color="primary"
               className={classes.submit}
             >
-              Sign Up
+              {isFetching ? (
+                <CircularProgress size={30} color={"secondary"} />
+              ) : (
+                "Sign Up"
+              )}
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
@@ -225,8 +238,12 @@ function SignUp({ createUserStartAsync }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  isFetching: state.auth.isFetching,
+  errorMessage: state.auth.errorMessage,
+});
 const mapDispatchToProps = (dispatch) => ({
   createUserStartAsync: (createDetails) =>
     dispatch(createUserStartAsync(createDetails)),
 });
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

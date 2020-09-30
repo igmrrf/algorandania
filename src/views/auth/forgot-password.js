@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +12,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import p2p from "../../static/img/p2pyellow.svg";
 import { Link as RouterLink } from "react-router-dom";
 import yellow from "@material-ui/core/colors/yellow";
+import { forgotPasswordStartAsync } from "../../redux/auth/auth.actions";
+import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,18 +50,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ForgotPassword() {
+function ForgotPassword({
+  isFetching,
+  forgotPasswordStartAsync,
+  errorMessage,
+}) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState("");
 
   const handleChange = (event) => {
     setEmail(event.target.value);
-    console.log(email);
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Help");
+    forgotPasswordStartAsync(email);
   };
 
   return (
@@ -96,7 +112,11 @@ export default function ForgotPassword() {
               color="primary"
               className={classes.submit}
             >
-              Send
+              {isFetching ? (
+                <CircularProgress size={30} color={"secondary"} />
+              ) : (
+                "Send Mail"
+              )}
             </Button>
 
             <Grid>
@@ -111,3 +131,12 @@ export default function ForgotPassword() {
     </Grid>
   );
 }
+const mapStateToProps = (state) => ({
+  isFetching: state.auth.isFetching,
+  errorMessage: state.auth.errorMessage,
+});
+const mapDispatchToProps = (dispatch) => ({
+  forgotPasswordStartAsync: (createDetails) =>
+    dispatch(forgotPasswordStartAsync(createDetails)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

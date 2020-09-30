@@ -1,6 +1,7 @@
 import React from "react";
+import Grid from "@material-ui/core/Grid";
 
-class Overview extends React.Component {
+class OverviewWidget extends React.Component {
   componentDidMount() {
     const script = document.createElement("script");
     script.src =
@@ -14,8 +15,8 @@ class Overview extends React.Component {
       locale: "en",
       largeChartUrl: "",
       isTransparent: false,
-      width: "400",
-      height: "660",
+      height: "450",
+      width: "100%",
       plotLineColorGrowing: "rgba(33, 150, 243, 1)",
       plotLineColorFalling: "rgba(33, 150, 243, 1)",
       gridLineColor: "rgba(240, 243, 250, 1)",
@@ -138,10 +139,12 @@ class Overview extends React.Component {
 
   render() {
     return (
-      <div id={"id-overview-widget"} className="tradingview-widget-container">
-        <div className="tradingview-widget-container__widget"></div>
-      </div>
+      <Grid item md={4} sm={6} xs={12}>
+        <div id={"id-overview-widget"} className="tradingview-widget-container">
+          <div className="tradingview-widget-container__widget"></div>
+        </div>
+      </Grid>
     );
   }
 }
-export default Overview;
+export default OverviewWidget;

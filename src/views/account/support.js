@@ -10,6 +10,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Layers from "@material-ui/icons/Layers";
 import axios from "../../utils/axios";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Support() {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const [support, setSupport] = useState({
     subject: "",
     email: "",
@@ -56,7 +58,7 @@ export default function Support() {
           console.log(data.message);
         }
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => enqueueSnackbar(err.message, { variant: "warning" }));
   };
   const handleChange = ({ target: { name, value } }) => {
     setSupport({ ...support, [name]: value });

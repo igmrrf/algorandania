@@ -3,9 +3,12 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { Avatar, Box, Card, Typography, makeStyles } from "@material-ui/core";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import Button from "@material-ui/core/Button";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     color: theme.palette.secondary.contrastText,
     backgroundColor: theme.palette.primary.main,
     padding: theme.spacing(3),
@@ -18,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     height: 48,
     width: 48,
+  },
+  button: {
+    position: "absolute",
+    bottom: 5,
+    right: "20%",
+    fontSize: "10px",
   },
 }));
 
@@ -43,6 +52,17 @@ const CardBalance = ({ className, amount, title, ...rest }) => {
           </Typography>
         </Box>
       </Box>
+      {title === "deposits" ? (
+        <Button
+          variant={"contained"}
+          color={"secondary"}
+          className={classes.button}
+          component={RouterLink}
+          to={"/account/deposit"}
+        >
+          Deposit Now
+        </Button>
+      ) : null}
       <Avatar className={classes.avatar} color="inherit">
         <AttachMoneyIcon />
       </Avatar>

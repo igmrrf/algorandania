@@ -38,7 +38,7 @@ function UploadTransaction({
     setLoading(false);
   };
 
-  const imageToDatabase = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = { amount, plan, type, receiptUrl };
     createTransactionStartAsync(data);
@@ -94,7 +94,7 @@ function UploadTransaction({
         disabled={!start}
         color={"primary"}
         variant={"outlined"}
-        onClick={imageToDatabase}
+        onClick={handleSubmit}
       >
         SUBMIT
       </Button>

@@ -21,12 +21,12 @@ export const getBankDetailsStartAsync = () => {
   return (dispatch) => {
     dispatch(getBankDetailsStart());
     axios
-      .get("bank/" + id)
+      .get("banks/" + id)
       .then((res) => {
         const bank = res.data.data;
         dispatch(getBankDetailsSuccess(bank));
       })
-      .catch((error) => dispatch(getBankDetailsFailure(error.message)));
+      .catch((error) => dispatch(getBankDetailsFailure(error.response.data)));
   };
 };
 
@@ -53,7 +53,7 @@ export const bankCreateStartAsync = (bankDetails) => {
         const bank = res.data.data;
         dispatch(bankCreateSuccess(bank));
       })
-      .catch((error) => dispatch(bankCreateFailure(error.message)));
+      .catch((error) => dispatch(bankCreateFailure(error.response.data)));
   };
 };
 
@@ -76,12 +76,12 @@ export const bankUpdateStartAsync = (bankDetails) => {
   return (dispatch) => {
     dispatch(bankUpdateStart());
     axios
-      .put("bank/" + id, { ...bankDetails })
+      .put("banks/" + id, { ...bankDetails })
       .then((res) => {
         const user = res.data.data;
         dispatch(bankUpdateSuccess(user));
       })
-      .catch((error) => dispatch(bankUpdateFailure(error.message)));
+      .catch((error) => dispatch(bankUpdateFailure(error.response.data)));
   };
 };
 
@@ -104,11 +104,11 @@ export const getAllBanksStartAsync = () => {
   return (dispatch) => {
     dispatch(getAllBanksStart());
     axios
-      .get("bank/")
+      .get("banks/")
       .then((res) => {
         const banks = res.data.data;
         dispatch(getAllBanksSuccess(banks));
       })
-      .catch((error) => dispatch(getAllBanksFailure(error.message)));
+      .catch((error) => dispatch(getAllBanksFailure(error.response.data)));
   };
 };

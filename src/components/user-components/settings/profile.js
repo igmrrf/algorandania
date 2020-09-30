@@ -34,8 +34,6 @@ const useStyles = makeStyles((theme) => ({
 function Profile({ user }) {
   const classes = useStyles();
   const [edit, setEdit] = useState(true);
-  console.log(user);
-  setEdit(true);
 
   return (
     <Grid container justify={"center"} alignItems={"center"}>

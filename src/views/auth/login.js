@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,12 +9,15 @@ import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import p2p from "../../static/img/p2pblue.svg";
 import { Link as RouterLink } from "react-router-dom";
 import { authStartAsync } from "../../redux/auth/auth.actions";
 import { connect } from "react-redux";
+import { useSnackbar } from "notistack";
+import useIsMountedRef from "../../hooks/useMounted";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,23 +52,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ authStartAsync }) {
+function Login({ authStartAsync, isFetching, errorMessage }) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const isMounted = useIsMountedRef();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
     console.log(user);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Help");
-    const data = user;
-    authStartAsync(data);
+    authStartAsync(user);
   };
 
   return (
@@ -115,7 +125,11 @@ function Login({ authStartAsync }) {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              {isFetching ? (
+                <CircularProgress size={30} color={"secondary"} />
+              ) : (
+                "Sign In"
+              )}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -140,8 +154,12 @@ function Login({ authStartAsync }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  isFetching: state.auth.isFetching,
+  errorMessage: state.auth.errorMessage,
+});
 const mapDispatchToProps = (dispatch) => ({
   authStartAsync: (data) => dispatch(authStartAsync(data)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

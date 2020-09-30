@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import bitcoin from "../../../static/img/bitcoin.jpeg";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
+import yellow from "@material-ui/core/colors/yellow";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -68,6 +69,7 @@ const Bitcoin = () => {
             variant={"contained"}
             color={"primary"}
             component={"a"}
+            target={"_blank"}
             rel={"no-referrer no-opener"}
             href={
               "https://play.google.com/store/apps/details?hl=en&id=co.bitx.android.wallet"
@@ -79,24 +81,55 @@ const Bitcoin = () => {
           <Button
             className={classes.button}
             variant={"contained"}
-            color={"primary"}
+            color={"secondary"}
             component={"a"}
+            target={"_blank"}
+            href={"https://www.coinmama.com"}
             rel={"no-referrer no-opener"}
-            href={"https://payments.changelly.com/"}
           >
-            <Icon className="fas fa-globe-africa" style={{ marginRight: 10 }} />
-            Changelly
+            <Icon className="fas fa-globe-africa" style={{ marginRight: 10 }} />{" "}
+            Coinmama
+          </Button>
+          <Button
+            className={classes.button}
+            variant={"contained"}
+            style={{ background: yellow[900], color: "white" }}
+            component={"a"}
+            target={"_blank"}
+            href={"https://www.bitcoin.com"}
+            rel={"no-referrer no-opener"}
+          >
+            <Icon className="fas fa-globe-africa" style={{ marginRight: 10 }} />{" "}
+            Bitcoin.com
           </Button>
           <Button
             className={classes.button}
             variant={"contained"}
             color={"primary"}
             component={"a"}
-            href={"https://www.coinmama.com"}
+            rel={"no-referrer no-opener"}
+            target={"_blank"}
+            href={
+              "https://play.google.com/store/apps/details?id=com.coinbase.android&hl=en"
+            }
+          >
+            <Icon className="fab fa-google-play" style={{ marginRight: 10 }} />
+            Coinbase
+          </Button>
+
+          <Button
+            className={classes.button}
+            variant={"contained"}
+            style={{ background: yellow[900], color: "white" }}
+            component={"a"}
+            target={"_blank"}
+            href={
+              "https://play.google.com/store/apps/details?id=io.cex.app.prod&hl=en"
+            }
             rel={"no-referrer no-opener"}
           >
-            <Icon className="fas fa-globe-africa" style={{ marginRight: 10 }} />{" "}
-            Coinmama
+            <Icon className="fab fa-google-play" style={{ marginRight: 10 }} />{" "}
+            CEX.io
           </Button>
         </div>
       </Grid>

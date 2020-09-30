@@ -9,7 +9,7 @@ const useStyle = () =>
       border: "2px solid red",
     },
   }));
-class Crypto extends React.Component {
+class CryptoWidget extends React.Component {
   componentDidMount() {
     const script = document.createElement("script");
     script.src =
@@ -44,4 +44,4 @@ class Crypto extends React.Component {
     );
   }
 }
-export default Crypto;
+export default CryptoWidget;

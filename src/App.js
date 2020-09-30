@@ -7,7 +7,6 @@ import routes, { renderRoutes } from "./routes";
 import { createStyles, makeStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getUserDetailsStartAsync } from "./redux/auth/auth.actions";
-import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -41,8 +40,7 @@ const GlobalStyles = () => {
   return null;
 };
 
-const App = ({ getUserDetailsStartAsync, errorMessage, role }) => {
-  const { enqueueSnackbar } = useSnackbar;
+const App = ({ getUserDetailsStartAsync, role }) => {
   useEffect(() => {
     const id = localStorage.getItem("_id");
     if (id && !role) {
@@ -51,10 +49,14 @@ const App = ({ getUserDetailsStartAsync, errorMessage, role }) => {
   }, [role, getUserDetailsStartAsync]);
   return (
     <ThemeProvider theme={theme}>
-      {errorMessage
-        ? enqueueSnackbar(errorMessage, { variant: "warning" })
-        : null}
-      <SnackbarProvider dense maxSnack={3}>
+      <SnackbarProvider
+        dense
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
         <Router>
           <GlobalStyles />
           {renderRoutes(routes)}

@@ -23,10 +23,10 @@ export const getTransactionsStartAsync = () => {
     axios
       .get("transactions/" + id)
       .then((res) => {
-        const transactions = res.data;
+        const transactions = res.data.data;
         dispatch(getTransactionsSuccess(transactions));
       })
-      .catch((error) => dispatch(getTransactionsFailure(error.message)));
+      .catch((error) => dispatch(getTransactionsFailure(error.response.data)));
   };
 };
 
@@ -55,7 +55,9 @@ export const getAllTransactionsStartAsync = () => {
         console.log(transactions);
         dispatch(getAllTransactionsSuccess(transactions));
       })
-      .catch((error) => dispatch(getAllTransactionsFailure(error.message)));
+      .catch((error) =>
+        dispatch(getAllTransactionsFailure(error.response.data))
+      );
   };
 };
 
@@ -84,7 +86,9 @@ export const createTransactionStartAsync = (transactionData) => {
         const transaction = res.data;
         dispatch(createTransactionSuccess(transaction));
       })
-      .catch((error) => dispatch(createTransactionFailure(error.message)));
+      .catch((error) =>
+        dispatch(createTransactionFailure(error.response.data))
+      );
   };
 };
 
@@ -112,7 +116,9 @@ export const deleteTransactionStartAsync = () => {
         const transactions = res.data;
         dispatch(deleteTransactionSuccess(transactions._id));
       })
-      .catch((error) => dispatch(deleteTransactionFailure(error.message)));
+      .catch((error) =>
+        dispatch(deleteTransactionFailure(error.response.data))
+      );
   };
 };
 
@@ -140,6 +146,8 @@ export const updateTransactionStartAsync = (transactionData) => {
         const transaction = res.data;
         dispatch(updateTransactionSuccess(transaction));
       })
-      .catch((error) => dispatch(updateTransactionFailure(error.message)));
+      .catch((error) =>
+        dispatch(updateTransactionFailure(error.response.data))
+      );
   };
 };

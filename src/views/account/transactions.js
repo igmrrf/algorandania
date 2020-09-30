@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import { Container, Box, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getTransactionsStartAsync } from "../../redux/transaction/transactions.actions";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles({
   table: {
@@ -19,12 +20,24 @@ const useStyles = makeStyles({
 
 const headings = ["S/N", "Type", "Amount", "Date", "Status"];
 
-function Transactions({ transactions, getTransactionsStartAsync }) {
+function Transactions({
+  transactions,
+  getTransactionsStartAsync,
+  errorMessage,
+}) {
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   useEffect(() => {
-    getTransactionsStartAsync();
+    if (transactions.length < 1) getTransactionsStartAsync();
   }, [getTransactionsStartAsync]);
 
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
   return (
     <Container>
       <Box>
@@ -43,13 +56,13 @@ function Transactions({ transactions, getTransactionsStartAsync }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {transactions.map((transaction) => (
+            {transactions.map((transaction, i) => (
               <TableRow key={transaction._id}>
                 <TableCell component="th" scope="row">
-                  {transaction.sn}
+                  {i + 1}
                 </TableCell>
                 <TableCell>{transaction.type}</TableCell>
-                <TableCell>{transaction.amount}</TableCell>
+                <TableCell>${transaction.amount}</TableCell>
                 <TableCell>{transaction.date}</TableCell>
                 <TableCell>{transaction.status}</TableCell>
               </TableRow>
@@ -62,6 +75,7 @@ function Transactions({ transactions, getTransactionsStartAsync }) {
 }
 const mapStateToProps = (state) => ({
   transactions: state.transaction.data,
+  errorMessage: state.transaction.errorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
 
-class index extends React.Component {
+class BinaryWidget extends React.Component {
   componentDidMount() {
     const script = document.createElement("script");
     script.src =
@@ -31,4 +31,4 @@ class index extends React.Component {
     );
   }
 }
-export default index;
+export default BinaryWidget;

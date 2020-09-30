@@ -28,7 +28,10 @@ export const authStartAsync = (loginDetails) => {
         localStorage.setItem("_id", user._id);
         dispatch(authSuccess(user));
       })
-      .catch((error) => dispatch(authFailure(error.message)));
+      .catch((error) => {
+        console.log(error.response.data);
+        dispatch(authFailure(error.response.data));
+      });
   };
 };
 
@@ -56,7 +59,7 @@ export const getUserDetailsStartAsync = () => {
         const user = res.data;
         dispatch(getUserDetailsSuccess(user));
       })
-      .catch((error) => dispatch(getUserDetailsFailure(error.message)));
+      .catch((error) => dispatch(getUserDetailsFailure(error.response.data)));
   };
 };
 
@@ -88,7 +91,7 @@ export const createUserStartAsync = (createDetails) => {
         localStorage.setItem("_id", user._id);
         dispatch(userCreateSuccess(user._id));
       })
-      .catch((error) => dispatch(userCreateFailure(error.message)));
+      .catch((error) => dispatch(userCreateFailure(error.response.data)));
   };
 };
 
@@ -116,6 +119,35 @@ export const updateUserDetailsStartAsync = (updateDetails) => {
         const user = res.data;
         dispatch(updateUserDetailsSuccess(user));
       })
-      .catch((error) => dispatch(updateUserDetailsFailure(error.message)));
+      .catch((error) =>
+        dispatch(updateUserDetailsFailure(error.response.data))
+      );
+  };
+};
+
+// USER UPDATE CREATION
+const forgotPasswordStart = () => ({
+  type: AuthActionTypes.UPDATE_USER_DETAILS_START,
+});
+
+const forgotPasswordSuccess = () => ({
+  type: AuthActionTypes.UPDATE_USER_DETAILS_SUCCESS,
+});
+
+const forgotPasswordFailure = (message) => ({
+  type: AuthActionTypes.UPDATE_USER_DETAILS_FAILURE,
+  payload: message,
+});
+
+export const forgotPasswordStartAsync = (email) => {
+  return (dispatch) => {
+    dispatch(forgotPasswordStart());
+    axios
+      .put("auth/recover" + id, { email })
+      .then((res) => {
+        const data = res.data.message;
+        dispatch(forgotPasswordSuccess(data));
+      })
+      .catch((error) => dispatch(forgotPasswordFailure(error.response.data)));
   };
 };

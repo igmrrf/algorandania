@@ -2,6 +2,8 @@ import React from "react";
 import { Container, Grid, makeStyles } from "@material-ui/core";
 import Balances from "../../components/user-components/balance";
 import Performance from "../../components/user-components/performance";
+import OverviewWidget from "../../components/shared-components/Widgets/over-view";
+import ForexWidget from "../../components/shared-components/Widgets/forex";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100%",
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
+  },
+  grid: {
+    flexDirection: "column",
   },
 }));
 
@@ -24,8 +29,10 @@ const UserDashboard = () => {
         <Grid item xs={12}>
           <Performance />
         </Grid>
-        <Grid item lg={8} xl={9} xs={12}>
-          {/*<FinancialStats />*/}
+        <Grid container justify={"center"} alignItems={"center"} spacing={2}>
+          <OverviewWidget />
+
+          <ForexWidget />
         </Grid>
       </Grid>
     </Container>

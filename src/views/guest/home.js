@@ -8,6 +8,7 @@ import Statistics from "../../components/main-components/statistics";
 import Coins from "../../components/main-components/coins";
 import Faqs from "../../components/main-components/faqs";
 import Plans from "../../components/main-components/plans";
+import CustomizedSteppers from "../../components/main-components/steps";
 
 function LandingPage() {
   return (
@@ -20,6 +21,7 @@ function LandingPage() {
       <Plans />
       <Coins />
       <Faqs />
+      <CustomizedSteppers />
       <AwardsAndCertificates />
     </div>
   );
