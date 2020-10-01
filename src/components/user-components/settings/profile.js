@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { connect } from "react-redux";
+import { updateUserDetailsStartAsync } from "../../../redux/auth/auth.actions";
 import Typography from "@material-ui/core/Typography";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,10 +33,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Profile({ user }) {
+function Profile({ user, updateUserDetailsStartAsync, errorMessage }) {
   const classes = useStyles();
-  const [edit, setEdit] = useState(true);
+  const { enqueueSnackbar } = useSnackbar();
+  const [state, setState] = useState({
+    name: user.name.toUpperCase(),
+    email: user.email,
+    plan: user.plan.toUpperCase(),
+    mobile: user.mobile,
+    gender: user.gender,
+    country: user.country,
+  });
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
 
+  const handleChange = ({ target: { value, name } }) => {
+    setState({ ...state, [name]: value });
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(state);
+    updateUserDetailsStartAsync(state);
+  };
   return (
     <Grid container justify={"center"} alignItems={"center"}>
       <Grid item xs={12} sm={8} component={Paper} elevation={6} square>
@@ -42,15 +67,16 @@ function Profile({ user }) {
           <Typography component="h1" variant="h5">
             Account Details
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               autoComplete="name"
               name="name"
               variant="outlined"
               fullWidth
-              disable={edit}
+              disabled={true}
               id="name"
-              value={user.name.toUpperCase()}
+              onChange={handleChange}
+              value={state.name}
               label="Name"
             />
 
@@ -60,8 +86,9 @@ function Profile({ user }) {
               fullWidth
               id="email"
               label="Email"
-              disabled={edit}
-              value={user.email}
+              disabled={true}
+              value={state.email}
+              onChange={handleChange}
               name="email"
               autoComplete="email"
             />
@@ -71,8 +98,9 @@ function Profile({ user }) {
               fullWidth
               id="plan"
               label="Plan"
-              disabled={edit}
-              value={user.plan.toUpperCase()}
+              disabled={true}
+              onChange={handleChange}
+              value={state.plan}
               name="plan"
               autoComplete="plan"
             />
@@ -81,7 +109,8 @@ function Profile({ user }) {
               margin="normal"
               fullWidth
               name="mobile"
-              value={user.mobile}
+              value={state.mobile}
+              onChange={handleChange}
               label="Mobile Number"
               id="mobile"
               autoComplete="mobile"
@@ -89,8 +118,9 @@ function Profile({ user }) {
             <TextField
               variant="outlined"
               margin="normal"
-              value={user.gender}
+              value={state.gender}
               fullWidth
+              onChange={handleChange}
               name="gender"
               label="Gender"
               id="gender"
@@ -101,7 +131,8 @@ function Profile({ user }) {
               variant="outlined"
               margin="normal"
               fullWidth
-              value={user.country}
+              value={state.country}
+              onChange={handleChange}
               name="country"
               label="Country"
               disabled
@@ -127,5 +158,11 @@ function Profile({ user }) {
 
 const mapStateToProps = (state) => ({
   user: state.auth.data,
+  errorMessage: state.auth.errorMessage,
 });
-export default connect(mapStateToProps)(Profile);
+
+const mapDispatchToProps = (dispatch) => ({
+  updateUserDetailsStartAsync: (data) =>
+    dispatch(updateUserDetailsStartAsync(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

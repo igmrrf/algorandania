@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { useSnackbar } from "notistack";
+import { updateAuthPasswordStartAsync } from "../../../redux/auth/auth.actions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,17 +33,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Security() {
+function Security({ updateAuthPasswordStartAsync, errorMessage }) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const [passwords, setPasswords] = useState({
+    password: "",
+    confirmPassword: "",
+    newPassword: "",
+  });
+
+  const handleChange = (event) => {
+    setPasswords({ ...passwords, [event.target.name]: event.target.value });
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Help");
+    updateAuthPasswordStartAsync(passwords);
+  };
 
   return (
     <Grid container justify={"center"} alignItems={"center"}>
-      <Grid xs={12} sm={8} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Typography variant={"h5"} component={"h5"}>
             Change Password
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -48,8 +75,9 @@ export default function Security() {
               fullWidth
               id="old_password"
               label="Old Password"
-              name="old_password"
+              name="password"
               type={"password"}
+              onChange={handleChange}
               autoComplete="old_password"
             />
             <TextField
@@ -57,9 +85,10 @@ export default function Security() {
               margin="normal"
               required
               fullWidth
-              id="new_password"
+              onChange={handleChange}
+              id="newPassword"
               label="New Password"
-              name="new_password"
+              name="newPassword"
               type={"password"}
               autoComplete="new_password"
             />
@@ -68,7 +97,8 @@ export default function Security() {
               margin="normal"
               required
               fullWidth
-              name="confirm_new_password"
+              onChange={handleChange}
+              name="confirmPassword"
               label="Confirm New Password"
               type="password"
               id="confirm_new_password"
@@ -90,3 +120,13 @@ export default function Security() {
     </Grid>
   );
 }
+
+const mapStateToProps = (state) => ({
+  errorMessage: state.auth.errorMessage,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateAuthPasswordStartAsync: (data) =>
+    dispatch(updateAuthPasswordStartAsync(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Security);

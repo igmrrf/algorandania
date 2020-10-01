@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,8 +9,12 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import MonetizationOnOutlined from "@material-ui/icons/MonetizationOnOutlined";
+import { connect } from "react-redux";
+import { createTransactionStartAsync } from "../../redux/transaction/transactions.actions";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,17 +36,55 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     display: "inline-block",
-    width: 300,
-    margin: theme.spacing(3, 0, 2),
+    width: 250,
+    margin: theme.spacing(1, 2),
   },
   title: {
     textAlign: "center",
   },
 }));
 
-export default function SignUp() {
+function Withdrawal({
+  plan,
+  createTransactionStartAsync,
+  balance,
+  isFetching,
+}) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const [details, setDetails] = useState({
+    wallet: "",
+    confirm: "",
+    amount: "",
+    type: "Withdraw",
+    plan: plan,
+  });
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    console.log(details);
+    console.log(value);
+    setDetails({ ...details, [name]: value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(balance);
+    const { amount, type, plan, wallet, confirm } = details;
+    if (confirm !== wallet) {
+      enqueueSnackbar("Wallet Addresses are not the same", { variant: "info" });
+      return;
+    } else if (amount >= balance) {
+      enqueueSnackbar("Insufficient balance, please make a deposit", {
+        variant: "info",
+      });
+      return;
+    }
+    createTransactionStartAsync({ amount, type, plan, wallet });
+    enqueueSnackbar("Withdrawal is being Processed", {
+      variant: "info",
+    });
+  };
   return (
     <Container component="main">
       <Box className={classes.title}>
@@ -59,15 +101,16 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Blockchain Wallet
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 autoComplete="bWallet"
-                name="blockchain_wallet"
+                name="wallet"
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleChange}
                 id="blockchain_wallet"
                 label="Blockchain Wallet"
               />
@@ -79,8 +122,9 @@ export default function SignUp() {
                 fullWidth
                 id="lastName"
                 label="Confirm Wallet"
-                name="lastName"
-                autoComplete="lname"
+                name="confirm"
+                onChange={handleChange}
+                autoComplete="Confirm_wallet"
               />
             </Grid>
 
@@ -89,6 +133,7 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleChange}
                 name="amount"
                 label="Amount"
                 type="text"
@@ -98,8 +143,10 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I understand the terms and conditions"
+                control={
+                  <Checkbox value="allowExtraEmails" required color="primary" />
+                }
+                label="I accept the terms & conditions"
               />
             </Grid>
           </Grid>
@@ -109,80 +156,42 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
           >
-            Withdraw
+            {isFetching ? (
+              <>
+                <CircularProgress
+                  size={20}
+                  color={"secondary"}
+                  style={{ marginBottom: -5 }}
+                />{" "}
+                Processing
+              </>
+            ) : (
+              "Withdraw To Wallet"
+            )}
           </Button>
-        </form>
-      </div>
-
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Bank Account
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="bname"
-                name="bank_name"
-                variant="outlined"
-                required
-                fullWidth
-                id="bank_name"
-                label="Bank Name"
-              />
-            </Grid>{" "}
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="bname"
-                name="bank_code"
-                variant="outlined"
-                required
-                fullWidth
-                id="bank_code"
-                label="Bank Code"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="bank_account_name"
-                label="Bank Account Name"
-                name="bank_account_name"
-                autoComplete="bName"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="bank_account_number"
-                label="Bank Account Number"
-                type="text"
-                id="bank_account_number"
-                autoComplete="bNumber"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I understand the terms and conditions"
-              />
-            </Grid>
-          </Grid>
           <Button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled
           >
-            Withdraw
+            Withdraw To Bank
           </Button>
         </form>
       </div>
     </Container>
   );
 }
+const mapStateToProps = (state) => ({
+  plan: state.auth.data.plan,
+  balance: state.auth.data.balances.balance.$numberDecimal,
+  isFetching: state.transaction.isFetching,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  createTransactionStartAsync: (data) =>
+    dispatch(createTransactionStartAsync(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Withdrawal);

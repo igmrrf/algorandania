@@ -113,6 +113,7 @@ const updateUserDetailsFailure = (message) => ({
 export const updateUserDetailsStartAsync = (updateDetails) => {
   return (dispatch) => {
     dispatch(updateUserDetailsStart());
+    console.log(updateDetails);
     axios
       .put("users/" + id, { ...updateDetails })
       .then((res) => {
@@ -121,6 +122,37 @@ export const updateUserDetailsStartAsync = (updateDetails) => {
       })
       .catch((error) =>
         dispatch(updateUserDetailsFailure(error.response.data))
+      );
+  };
+};
+
+// USER UPDATE CREATION
+const updateAuthPasswordStart = () => ({
+  type: AuthActionTypes.UPDATE_USER_DETAILS_START,
+});
+
+const updateAuthPasswordSuccess = (message) => ({
+  type: AuthActionTypes.UPDATE_USER_DETAILS_SUCCESS,
+  payload: message,
+});
+
+const updateAuthPasswordFailure = (message) => ({
+  type: AuthActionTypes.UPDATE_USER_DETAILS_FAILURE,
+  payload: message,
+});
+
+export const updateAuthPasswordStartAsync = (passwords) => {
+  return (dispatch) => {
+    dispatch(updateAuthPasswordStart());
+    console.log(passwords);
+    axios
+      .put("users/password", { ...passwords })
+      .then((res) => {
+        const message = res.data;
+        dispatch(updateAuthPasswordSuccess(message));
+      })
+      .catch((error) =>
+        dispatch(updateAuthPasswordFailure(error.response.data))
       );
   };
 };

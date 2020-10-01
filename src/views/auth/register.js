@@ -20,6 +20,7 @@ import { createUserStartAsync } from "../../redux/auth/auth.actions";
 import p2p from "../../static/img/p2pblue.svg";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSnackbar } from "notistack";
+import Countries from "../../helpers/countries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -169,10 +170,12 @@ function SignUp({ createUserStartAsync, isFetching, errorMessage }) {
                       id: "country_selector",
                     }}
                   >
-                    <option aria-label="None" value="" />
-                    <option value={"Nigeria"}>Nigeria</option>
-                    <option value={"USA"}>USA</option>
-                    <option value={"Ben"}>Ben"</option>
+                    <option aria-label="None" />
+                    {Countries.map((country, i) => (
+                      <option value={country} key={i}>
+                        {country}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>

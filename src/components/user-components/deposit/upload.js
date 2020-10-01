@@ -25,7 +25,7 @@ const UploadReceipt = () => {
   const [plan, setPlan] = useState("");
   const classes = useStyles();
 
-  const type = "deposit";
+  const type = "Deposit";
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
