@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { connect } from "react-redux";
+import {
+  getBankDetailsStartAsync,
+  bankCreateStartAsync,
+} from "../../../redux/bank/bank.actions";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,8 +37,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Bank() {
+function Bank({
+  bank,
+  getBankDetailsStartAsync,
+  isFetching,
+  errorMessage,
+  bankCreateStartAsync,
+  message,
+}) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const [disabled, setDisabled] = useState(false);
+  const [details, setDetails] = useState({
+    account_name: bank.account_name,
+    account_type: "",
+    bank_name: "",
+    bank_code: "",
+    account_number: "",
+  });
+
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (!bank.user) getBankDetailsStartAsync();
+
+    if (message) {
+      enqueueSnackbar(message, {
+        variant: "success",
+      });
+    }
+  }, [message, bank]);
+  useEffect(() => {
+    if (bank.length < 1) getBankDetailsStartAsync();
+  }, []);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    console.log(details);
+    setDetails({ ...details, [name]: value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    bankCreateStartAsync(details);
+  };
 
   return (
     <Grid container justify={"center"} alignItems={"center"}>
@@ -40,12 +95,15 @@ export default function Bank() {
           <Typography component="h1" variant="h5">
             Bank Details
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
+              onChange={handleChange}
+              value={details.account_name}
+              disabled={disabled}
               id="account_name"
               label="Account Name"
               name="account_name"
@@ -56,7 +114,10 @@ export default function Bank() {
               margin="normal"
               required
               fullWidth
+              value={details.account_number}
+              onChange={handleChange}
               name="account_number"
+              disabled={disabled}
               label="Account Number"
               id="account_number"
               autoComplete="account_number"
@@ -64,8 +125,24 @@ export default function Bank() {
             <TextField
               variant="outlined"
               margin="normal"
+              disabled={disabled}
               required
               fullWidth
+              onChange={handleChange}
+              value={details.account_type}
+              name="account_type"
+              label="Account Type"
+              id="account_type"
+              autoComplete="account_type"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              onChange={handleChange}
+              disabled={disabled}
+              value={details.bank_name}
               name="bank_name"
               label="Bank Name"
               id="bank_name"
@@ -75,7 +152,10 @@ export default function Bank() {
               variant="outlined"
               margin="normal"
               required
+              disabled={disabled}
               fullWidth
+              onChange={handleChange}
+              value={details.bank_code}
               name="bank_code"
               label="Bank Code"
               id="bank_code"
@@ -89,7 +169,18 @@ export default function Bank() {
               color="primary"
               className={classes.submit}
             >
-              Submit
+              {isFetching ? (
+                <>
+                  <CircularProgress
+                    size={20}
+                    color={"secondary"}
+                    style={{ marginBottom: -5 }}
+                  />{" "}
+                  Submitting
+                </>
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </div>
@@ -97,3 +188,16 @@ export default function Bank() {
     </Grid>
   );
 }
+
+const mapStateToProps = (state) => ({
+  isFetching: state.bank.isFetching,
+  errorMessage: state.bank.errorMessage,
+  bank: state.bank.data,
+  message: state.bank.message,
+});
+const mapDispatchToProps = (dispatch) => ({
+  getBankDetailsStartAsync: () => dispatch(getBankDetailsStartAsync()),
+  bankCreateStartAsync: (data) => dispatch(bankCreateStartAsync(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Bank);

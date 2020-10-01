@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ createUserStartAsync, isFetching, errorMessage }) {
+function SignUp({ createUserStartAsync, isFetching, errorMessage, message }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [user, setUser] = useState({
@@ -76,10 +76,19 @@ function SignUp({ createUserStartAsync, isFetching, errorMessage }) {
       });
     }
   }, [errorMessage]);
+  useEffect(() => {
+    if (message) {
+      enqueueSnackbar(message, {
+        variant: "success",
+      });
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+    }
+  }, [message]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Help");
     createUserStartAsync(user);
   };
 
@@ -244,6 +253,7 @@ function SignUp({ createUserStartAsync, isFetching, errorMessage }) {
 const mapStateToProps = (state) => ({
   isFetching: state.auth.isFetching,
   errorMessage: state.auth.errorMessage,
+  message: state.auth.message,
 });
 const mapDispatchToProps = (dispatch) => ({
   createUserStartAsync: (createDetails) =>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Grid, makeStyles } from "@material-ui/core";
 import Balances from "../../components/user-components/balance";
 import Performance from "../../components/user-components/performance";
@@ -31,7 +31,6 @@ const UserDashboard = () => {
         </Grid>
         <Grid container justify={"center"} alignItems={"center"} spacing={2}>
           <OverviewWidget />
-
           <ForexWidget />
         </Grid>
       </Grid>

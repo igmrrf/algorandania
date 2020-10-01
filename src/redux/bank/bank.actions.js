@@ -1,19 +1,19 @@
-import BankTypes from "./bank.types";
+import BankAccountTypes from "./bank.types";
 import axios from "../../utils/axios";
 import { id } from "../../utils/constants";
 
 //GET BANK DETAILS ACTION
 const getBankDetailsStart = () => ({
-  type: BankTypes.GET_BANK_DETAILS_START,
+  type: BankAccountTypes.GET_BANK_DETAILS_START,
 });
 
 const getBankDetailsSuccess = (bank) => ({
-  type: BankTypes.GET_BANK_DETAILS_SUCCESS,
+  type: BankAccountTypes.GET_BANK_DETAILS_SUCCESS,
   payload: bank,
 });
 
 const getBankDetailsFailure = (message) => ({
-  type: BankTypes.GET_BANK_DETAILS_FAILURE,
+  type: BankAccountTypes.GET_BANK_DETAILS_FAILURE,
   payload: message,
 });
 
@@ -23,7 +23,7 @@ export const getBankDetailsStartAsync = () => {
     axios
       .get("banks/" + id)
       .then((res) => {
-        const bank = res.data.data;
+        const bank = res.data[0];
         dispatch(getBankDetailsSuccess(bank));
       })
       .catch((error) => dispatch(getBankDetailsFailure(error.response.data)));
@@ -31,27 +31,28 @@ export const getBankDetailsStartAsync = () => {
 };
 
 const bankCreateStart = () => ({
-  type: BankTypes.BANK_CREATE_START,
+  type: BankAccountTypes.BANK_CREATE_START,
 });
 
-const bankCreateSuccess = (bank) => ({
-  type: BankTypes.BANK_CREATE_SUCCESS,
-  payload: bank,
+const bankCreateSuccess = (bank, message) => ({
+  type: BankAccountTypes.BANK_CREATE_SUCCESS,
+  payload: { bank, message },
 });
 
 const bankCreateFailure = (message) => ({
-  type: BankTypes.BANK_CREATE_FAILURE,
+  type: BankAccountTypes.BANK_CREATE_FAILURE,
   payload: message,
 });
 
 export const bankCreateStartAsync = (bankDetails) => {
   return (dispatch) => {
     dispatch(bankCreateStart());
+    console.log(bankDetails);
     axios
-      .post("banks/" + id, { ...bankDetails })
+      .post("banks", { ...bankDetails })
       .then((res) => {
-        const bank = res.data.data;
-        dispatch(bankCreateSuccess(bank));
+        const { data, message } = res.data;
+        dispatch(bankCreateSuccess(data, message));
       })
       .catch((error) => dispatch(bankCreateFailure(error.response.data)));
   };
@@ -59,16 +60,16 @@ export const bankCreateStartAsync = (bankDetails) => {
 
 //BANK DETAILS UPDATE ACTION
 const bankUpdateStart = () => ({
-  type: BankTypes.BANK_UPDATE_START,
+  type: BankAccountTypes.BANK_UPDATE_START,
 });
 
 const bankUpdateSuccess = (bank) => ({
-  type: BankTypes.BANK_UPDATE_SUCCESS,
+  type: BankAccountTypes.BANK_UPDATE_SUCCESS,
   payload: bank,
 });
 
 const bankUpdateFailure = (message) => ({
-  type: BankTypes.BANK_UPDATE_FAILURE,
+  type: BankAccountTypes.BANK_UPDATE_FAILURE,
   payload: message,
 });
 
@@ -87,16 +88,16 @@ export const bankUpdateStartAsync = (bankDetails) => {
 
 //GET BANK DETAILS ACTION
 const getAllBanksStart = () => ({
-  type: BankTypes.GET_BANK_DETAILS_START,
+  type: BankAccountTypes.GET_BANK_DETAILS_START,
 });
 
 const getAllBanksSuccess = (banks) => ({
-  type: BankTypes.GET_BANK_DETAILS_SUCCESS,
+  type: BankAccountTypes.GET_BANK_DETAILS_SUCCESS,
   payload: banks,
 });
 
 const getAllBanksFailure = (message) => ({
-  type: BankTypes.GET_BANK_DETAILS_FAILURE,
+  type: BankAccountTypes.GET_BANK_DETAILS_FAILURE,
   payload: message,
 });
 

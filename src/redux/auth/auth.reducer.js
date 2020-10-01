@@ -45,7 +45,8 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         errorMessage: null,
-        id: action.payload,
+        id: action.payload.id,
+        message: action.payload.message,
       };
 
     case AuthActionTypes.UPDATE_USER_DETAILS_SUCCESS:

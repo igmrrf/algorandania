@@ -36,12 +36,12 @@ const useStyles = makeStyles(() =>
 
 const GlobalStyles = () => {
   useStyles();
-
   return null;
 };
 
 const App = ({ getUserDetailsStartAsync, role }) => {
   useEffect(() => {
+    console.log("Mounted");
     const id = localStorage.getItem("_id");
     if (id && !role) {
       getUserDetailsStartAsync(id);

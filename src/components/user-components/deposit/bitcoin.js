@@ -7,6 +7,8 @@ import bitcoin from "../../../static/img/bitcoin.jpeg";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import yellow from "@material-ui/core/colors/yellow";
+import Tooltip from "recharts/lib/component/Tooltip";
+import CopyExample from "../../../helpers/copyToClipboard";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -33,21 +35,25 @@ const Bitcoin = () => {
 
   return (
     <Grid container justify={"center"} alignItems={"center"}>
-      <Grid xs={12}>
+      <Grid xs={12} md={6}>
         <CardHeader title={"Deposit Using Blockchain Wallet"} />
         <Typography>Deposit to Blockchain wallet generated for you</Typography>
-        <Typography color={"textSecondary"}>
+        <Typography
+          id={"btc-wallet-copy"}
+          color={"textSecondary"}
+          ref={(btcWallet) => btcWallet}
+        >
           34yrzburKiqu5hB3SMJ1TYdjRE99cHUcv3
         </Typography>
+        <CopyExample />
         <img
-          className={classes.cover}
           src={bitcoin}
           width={240}
           title={"Generated Deposit Wallet Address"}
           alt={""}
         />
       </Grid>
-      <Grid xs={12}>
+      <Grid xs={12} md={6}>
         <CardHeader title={"Deposit Using These other Methods"} />
         <div>
           <Button
@@ -130,6 +136,30 @@ const Bitcoin = () => {
           >
             <Icon className="fab fa-google-play" style={{ marginRight: 10 }} />{" "}
             CEX.io
+          </Button>
+          <Button
+            className={classes.button}
+            variant={"contained"}
+            style={{ background: yellow[900], color: "white" }}
+            component={"a"}
+            target={"_blank"}
+            href={"https://payments.changelly.com"}
+            rel={"no-referrer no-opener"}
+          >
+            <Icon className="fas fa-globe-africa" style={{ marginRight: 10 }} />{" "}
+            Changelly
+          </Button>
+          <Button
+            className={classes.button}
+            variant={"contained"}
+            style={{ background: yellow[900], color: "white" }}
+            component={"a"}
+            target={"_blank"}
+            href={"https://www.instacoins.com/"}
+            rel={"no-referrer no-opener"}
+          >
+            <Icon className="fas fa-globe-africa" style={{ marginRight: 10 }} />{" "}
+            InstaCoins
           </Button>
         </div>
       </Grid>

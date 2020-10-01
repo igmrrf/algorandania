@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const referralReducer = (state = initialState, action) => {
-  switch (action.payload) {
+  switch (action.type) {
     case ReferralActionTypes.GET_REFERRAL_START:
       return {
         ...state,

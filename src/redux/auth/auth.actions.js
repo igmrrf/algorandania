@@ -68,9 +68,9 @@ const userCreateStart = () => ({
   type: AuthActionTypes.USER_CREATE_START,
 });
 
-const userCreateSuccess = (id) => ({
+const userCreateSuccess = (id, message) => ({
   type: AuthActionTypes.USER_CREATE_SUCCESS,
-  payload: id,
+  payload: { id, message },
 });
 
 const userCreateFailure = (message) => ({
@@ -89,7 +89,9 @@ export const createUserStartAsync = (createDetails) => {
         const token = res.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
         localStorage.setItem("_id", user._id);
-        dispatch(userCreateSuccess(user._id));
+        const message =
+          "Congrats you've successfully signed up, details will be sent to your email.";
+        dispatch(userCreateSuccess(user._id, message));
       })
       .catch((error) => dispatch(userCreateFailure(error.response.data)));
   };
@@ -128,16 +130,16 @@ export const updateUserDetailsStartAsync = (updateDetails) => {
 
 // USER UPDATE CREATION
 const updateAuthPasswordStart = () => ({
-  type: AuthActionTypes.UPDATE_USER_DETAILS_START,
+  type: AuthActionTypes.UPDATE_AUTH_PASSWORD_START,
 });
 
 const updateAuthPasswordSuccess = (message) => ({
-  type: AuthActionTypes.UPDATE_USER_DETAILS_SUCCESS,
+  type: AuthActionTypes.UPDATE_AUTH_PASSWORD_SUCCESS,
   payload: message,
 });
 
 const updateAuthPasswordFailure = (message) => ({
-  type: AuthActionTypes.UPDATE_USER_DETAILS_FAILURE,
+  type: AuthActionTypes.UPDATE_AUTH_PASSWORD_FAILURE,
   payload: message,
 });
 
@@ -146,7 +148,7 @@ export const updateAuthPasswordStartAsync = (passwords) => {
     dispatch(updateAuthPasswordStart());
     console.log(passwords);
     axios
-      .put("users/password", { ...passwords })
+      .patch("users/password/", { ...passwords })
       .then((res) => {
         const message = res.data;
         dispatch(updateAuthPasswordSuccess(message));

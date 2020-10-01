@@ -8,6 +8,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useSnackbar } from "notistack";
 import { updateAuthPasswordStartAsync } from "../../../redux/auth/auth.actions";
 import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Security({ updateAuthPasswordStartAsync, errorMessage }) {
+function Security({
+  updateAuthPasswordStartAsync,
+  errorMessage,
+  message,
+  isFetching,
+}) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [passwords, setPasswords] = useState({
@@ -53,11 +59,25 @@ function Security({ updateAuthPasswordStartAsync, errorMessage }) {
       });
     }
   }, [errorMessage]);
+  useEffect(() => {
+    if (message) {
+      enqueueSnackbar(message, {
+        variant: "success",
+      });
+    }
+  }, [message]);
 
   const handleSubmit = (event) => {
+    const { newPassword, confirmPassword, password } = passwords;
     event.preventDefault();
     console.log("Help");
-    updateAuthPasswordStartAsync(passwords);
+    if (newPassword !== confirmPassword)
+      enqueueSnackbar("Passwords don't match", {
+        variant: "warning",
+      });
+    else {
+      updateAuthPasswordStartAsync({ newPassword, password });
+    }
   };
 
   return (
@@ -112,7 +132,18 @@ function Security({ updateAuthPasswordStartAsync, errorMessage }) {
               color="primary"
               className={classes.submit}
             >
-              Change
+              {isFetching ? (
+                <>
+                  <CircularProgress
+                    size={20}
+                    color={"secondary"}
+                    style={{ marginBottom: -5 }}
+                  />{" "}
+                  Updating
+                </>
+              ) : (
+                "Change"
+              )}
             </Button>
           </form>
         </div>
@@ -123,6 +154,8 @@ function Security({ updateAuthPasswordStartAsync, errorMessage }) {
 
 const mapStateToProps = (state) => ({
   errorMessage: state.auth.errorMessage,
+  message: state.auth.message,
+  isFetching: state.auth.isFetching,
 });
 
 const mapDispatchToProps = (dispatch) => ({

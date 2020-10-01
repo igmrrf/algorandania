@@ -6,16 +6,20 @@ import Box from "@material-ui/core/Box";
 import { connect } from "react-redux";
 import { createTransactionStartAsync } from "../../../redux/transaction/transactions.actions";
 import { Typography } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useSnackbar } from "notistack";
 
 function UploadTransaction({
   plan,
   amount,
   type,
   createTransactionStartAsync,
+  isFetching,
 }) {
   const [receiptUrl, setReceiptUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [start, setStart] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const onFileUpload = async (e) => {
     const files = e.target.files;
@@ -38,10 +42,16 @@ function UploadTransaction({
     setLoading(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = { amount, plan, type, receiptUrl };
-    createTransactionStartAsync(data);
+    await createTransactionStartAsync(data);
+    enqueueSnackbar("Payment receipt has been submitted successfully", {
+      variant: "info",
+    });
+    setTimeout(() => {
+      window.location.href = "/account/transactions";
+    }, 2500);
   };
 
   return (
@@ -96,14 +106,28 @@ function UploadTransaction({
         variant={"outlined"}
         onClick={handleSubmit}
       >
-        SUBMIT
+        {isFetching ? (
+          <>
+            <CircularProgress
+              size={20}
+              color={"secondary"}
+              style={{ marginBottom: -5 }}
+            />
+            Processing
+          </>
+        ) : (
+          "SUBMIT"
+        )}
       </Button>
     </Grid>
   );
 }
 
+const mapStateToProps = (state) => ({
+  isFetching: state.transaction.isFetching,
+});
 const mapDispatchToProps = (dispatch) => ({
   createTransactionStartAsync: (data) =>
     dispatch(createTransactionStartAsync(data)),
 });
-export default connect(null, mapDispatchToProps)(UploadTransaction);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadTransaction);

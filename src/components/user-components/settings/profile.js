@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { updateUserDetailsStartAsync } from "../../../redux/auth/auth.actions";
 import Typography from "@material-ui/core/Typography";
 import { useSnackbar } from "notistack";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Profile({ user, updateUserDetailsStartAsync, errorMessage }) {
+function Profile({
+  user,
+  updateUserDetailsStartAsync,
+  errorMessage,
+  message,
+  isFetching,
+}) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [state, setState] = useState({
@@ -147,7 +154,18 @@ function Profile({ user, updateUserDetailsStartAsync, errorMessage }) {
               color="primary"
               className={classes.submit}
             >
-              Submit
+              {isFetching ? (
+                <>
+                  <CircularProgress
+                    size={20}
+                    color={"secondary"}
+                    style={{ marginBottom: -5 }}
+                  />{" "}
+                  Processing...
+                </>
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </div>
@@ -159,6 +177,7 @@ function Profile({ user, updateUserDetailsStartAsync, errorMessage }) {
 const mapStateToProps = (state) => ({
   user: state.auth.data,
   errorMessage: state.auth.errorMessage,
+  isFetching: state.auth.isFetching,
 });
 
 const mapDispatchToProps = (dispatch) => ({

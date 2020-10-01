@@ -116,7 +116,7 @@ function getSteps() {
   return [
     "Fill out the form and select a password to register",
     "Fund your account from a variety of payment methods",
-    "Start trading with no delay. Thousands of markets await you",
+    "Start mining & with no delay. Thousands of markets await you",
   ];
 }
 
