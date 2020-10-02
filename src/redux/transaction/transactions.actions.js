@@ -137,11 +137,11 @@ const updateTransactionFailure = (message) => ({
   payload: message,
 });
 
-export const updateTransactionStartAsync = (transactionData) => {
+export const updateTransactionStartAsync = (id, status) => {
   return (dispatch) => {
     dispatch(updateTransactionStart());
     axios
-      .put("transactions/" + id, { ...transactionData })
+      .put("transactions/" + id, { status })
       .then((res) => {
         const transaction = res.data;
         dispatch(updateTransactionSuccess(transaction));

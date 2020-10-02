@@ -65,17 +65,25 @@ function Bank({
   }, [errorMessage]);
 
   useEffect(() => {
-    if (!bank.user) getBankDetailsStartAsync();
-
     if (message) {
       enqueueSnackbar(message, {
         variant: "success",
       });
     }
   }, [message, bank]);
+
   useEffect(() => {
     if (bank.length < 1) getBankDetailsStartAsync();
-  }, []);
+    if (bank.user) {
+      setDetails({
+        account_name: bank.account_name,
+        account_type: bank.account_type,
+        bank_name: bank.bank_name,
+        bank_code: bank.bank_code,
+        account_number: bank.account_number,
+      });
+    }
+  }, [bank]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;

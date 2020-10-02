@@ -104,16 +104,16 @@ export default function Faqs() {
               <Typography>
                 Simply follow the steps after this content below. or{" "}
                 <span color={"secondary"}>Click on</span>
+                <Button
+                  color={"primary"}
+                  variant={"contained"}
+                  to={"/register"}
+                  component={RouterLink}
+                  style={{ marginLeft: 20 }}
+                >
+                  Get Started
+                </Button>
               </Typography>
-              <Button
-                color={"primary"}
-                variant={"contained"}
-                to={"/register"}
-                component={RouterLink}
-                style={{ marginLeft: 20 }}
-              >
-                Get Started
-              </Button>
             </AccordionDetails>
           </Accordion>
           <Accordion expanded={expanded === "4"} onChange={handleChange("4")}>

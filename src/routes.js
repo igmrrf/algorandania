@@ -161,26 +161,13 @@ const routes = [
         path: "/app/banks",
         component: lazy(() => import("./views/admin/banks")),
       },
-      {
-        exact: true,
-        path: "/app/banks/view/:id",
-        component: lazy(() => import("./views/admin/bank-view-edit")),
-      },
+
       {
         exact: true,
         path: "/app/deposited",
         component: lazy(() => import("./views/admin/deposited")),
       },
-      {
-        exact: true,
-        path: "/app/support",
-        component: lazy(() => import("./views/admin/support")),
-      },
-      {
-        exact: true,
-        path: "/app/support/reply/:id",
-        component: lazy(() => import("./views/admin/support-response")),
-      },
+
       {
         exact: true,
         path: "/app/settings",

@@ -107,7 +107,7 @@ export const getAllBanksStartAsync = () => {
     axios
       .get("banks/")
       .then((res) => {
-        const banks = res.data.data;
+        const banks = res.data;
         dispatch(getAllBanksSuccess(banks));
       })
       .catch((error) => dispatch(getAllBanksFailure(error.response.data)));

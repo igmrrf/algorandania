@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function TransactionModal({ transaction, updateTransactionStartAsync }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [status, setStatus] = React.useState(transaction.status);
+  const [status, setStatus] = React.useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -39,6 +39,9 @@ function TransactionModal({ transaction, updateTransactionStartAsync }) {
   const handleClose = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    if (transaction) setStatus(transaction.status);
+  }, []);
 
   const handleChange = (event) => {
     setStatus(event.target.value);
@@ -46,8 +49,8 @@ function TransactionModal({ transaction, updateTransactionStartAsync }) {
 
   const handlePost = (event) => {
     event.preventDefault();
-    const data = { ...transaction, status: status };
-    updateTransactionStartAsync(data);
+    updateTransactionStartAsync(transaction._id, status);
+    setStatus("");
     handleClose();
   };
 
@@ -87,7 +90,7 @@ function TransactionModal({ transaction, updateTransactionStartAsync }) {
                 fullWidth
               />
               <Button
-                onClick={handlePost}
+                type={"submit"}
                 variant={"contained"}
                 color={"secondary"}
                 className={classes.button}
@@ -103,8 +106,8 @@ function TransactionModal({ transaction, updateTransactionStartAsync }) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  updateTransactionStartAsync: (data) =>
-    dispatch(updateTransactionStartAsync(data)),
+  updateTransactionStartAsync: (id, data) =>
+    dispatch(updateTransactionStartAsync(id, data)),
 });
 
 export default connect(null, mapDispatchToProps)(TransactionModal);

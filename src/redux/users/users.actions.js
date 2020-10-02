@@ -1,6 +1,7 @@
 import UsersActionTypes from "./users.types";
 import axios from "../../utils/axios";
 import { id } from "../../utils/constants";
+import { defaultFormat } from "moment";
 
 //GETTING USER INFORMATION
 const getAllUserDetailsStart = () => ({
@@ -21,7 +22,7 @@ export const getAllUserDetailsStartAsync = () => {
   return (dispatch) => {
     dispatch(getAllUserDetailsStart());
     axios
-      .get("users")
+      .get("users/")
       .then((res) => {
         const users = res.data;
         dispatch(getAllUserDetailsSuccess(users));
@@ -37,9 +38,9 @@ const updateUserStart = () => ({
   type: UsersActionTypes.UPDATE_USER_START,
 });
 
-const updateUserSuccess = (user) => ({
+const updateUserSuccess = (data) => ({
   type: UsersActionTypes.UPDATE_USER_SUCCESS,
-  payload: user,
+  payload: data,
 });
 
 const updateUserFailure = (message) => ({
@@ -47,14 +48,15 @@ const updateUserFailure = (message) => ({
   payload: message,
 });
 
-export const updateUserStartAsync = (updateDetails) => {
+export const updateUserStartAsync = (id, updateDetails) => {
   return (dispatch) => {
+    console.log(updateDetails);
     dispatch(updateUserStart());
     axios
-      .put("users/" + id, { ...updateDetails })
+      .put("users/balance/" + id, { ...updateDetails })
       .then((res) => {
-        const user = res.data;
-        dispatch(updateUserSuccess(user));
+        const data = res.data;
+        dispatch(updateUserSuccess(data));
       })
       .catch((error) => dispatch(updateUserFailure(error.response.data)));
   };

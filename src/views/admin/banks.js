@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 function Banks({ banks, getAllBanksStartAsync }) {
   const classes = useStyles();
   useEffect(() => {
-    getAllBanksStartAsync();
+    if (banks.length < 1) getAllBanksStartAsync();
   }, [getAllBanksStartAsync]);
 
   return (
@@ -58,19 +58,13 @@ function Banks({ banks, getAllBanksStartAsync }) {
                   <Typography gutterBottom variant="h5" component="h2">
                     Name: {bank.account_name}
                   </Typography>
-                  <Typography>Account: Number {bank.account_number}</Typography>
+                  <Typography variant={"body1"}>
+                    Account Number: {bank.account_number}
+                  </Typography>
                   <Typography>Account Type: {bank.account_type}</Typography>
                   <Typography>Bank Name: {bank.bank_name}</Typography>
                   <Typography>Bank Code: {bank.bank_code}</Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small" color="primary">
-                    View
-                  </Button>
-                  <Button size="small" color="primary">
-                    Edit
-                  </Button>
-                </CardActions>
               </Card>
             </Grid>
           ))}

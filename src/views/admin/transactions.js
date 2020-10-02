@@ -67,7 +67,13 @@ function Transactions({ getAllTransactionsStartAsync, transactions }) {
                   alt="receipt"
                 />
                 <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography gutterBottom variant="h6" component="h2">
+                    Name: {transaction.userId.name}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h2">
+                    Email: {transaction.userId.email}
+                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h2">
                     Type: {transaction.type}
                   </Typography>
                   <Typography>Amount:{transaction.amount}</Typography>{" "}

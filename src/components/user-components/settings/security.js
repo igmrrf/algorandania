@@ -65,6 +65,11 @@ function Security({
         variant: "success",
       });
     }
+    setPasswords({
+      newPassword: "",
+      password: "",
+      confirmPassword: "",
+    });
   }, [message]);
 
   const handleSubmit = (event) => {
@@ -96,6 +101,7 @@ function Security({
               id="old_password"
               label="Old Password"
               name="password"
+              value={passwords.password}
               type={"password"}
               onChange={handleChange}
               autoComplete="old_password"
@@ -105,6 +111,7 @@ function Security({
               margin="normal"
               required
               fullWidth
+              value={passwords.newPassword}
               onChange={handleChange}
               id="newPassword"
               label="New Password"
@@ -117,6 +124,7 @@ function Security({
               margin="normal"
               required
               fullWidth
+              value={passwords.confirmPassword}
               onChange={handleChange}
               name="confirmPassword"
               label="Confirm New Password"

@@ -76,7 +76,7 @@ function Users({ users, getAllUserDetailsStartAsync }) {
                 </CardContent>
                 <CardActions>
                   <Button
-                    to={`/users/view/${user._id}`}
+                    to={`/app/users/view/${user._id}`}
                     size="small"
                     color="primary"
                     component={RouterLink}

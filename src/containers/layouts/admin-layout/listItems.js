@@ -18,7 +18,6 @@ const NavigationList = [
     icon: <MonetizationOnOutlined />,
   },
   { title: "Transactions", to: "/app/transactions", icon: <BarChartIcon /> },
-  { title: "Support", to: "/app/support", icon: <LayersIcon /> },
   { title: "Settings", to: "/app/settings", icon: <Settings /> },
 ];
 

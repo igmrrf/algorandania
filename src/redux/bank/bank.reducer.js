@@ -56,6 +56,7 @@ const bankReducer = (state = initialState, action) => {
         isFetching: false,
         errorMessage: action.payload,
         message: null,
+        data: [],
       };
     default:
       return state;
