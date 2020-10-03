@@ -21,6 +21,7 @@ const getAllUserDetailsFailure = (message) => ({
 export const getAllUserDetailsStartAsync = () => {
   return (dispatch) => {
     dispatch(getAllUserDetailsStart());
+    console.log(localStorage.getItem("x-auth-token"));
     axios
       .get("users/")
       .then((res) => {

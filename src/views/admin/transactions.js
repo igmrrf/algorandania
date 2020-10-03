@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -40,11 +40,20 @@ const useStyles = makeStyles((theme) => ({
 
 function Transactions({ getAllTransactionsStartAsync, transactions }) {
   const classes = useStyles();
+  const [trans, setTrans] = useState([]);
+
   useEffect(() => {
     if (transactions.length < 1) {
       getAllTransactionsStartAsync();
     }
   }, [transactions, getAllTransactionsStartAsync]);
+
+  useEffect(() => {
+    if (transactions !== trans) {
+      setTrans(transactions);
+    }
+  }, [transactions]);
+
   return (
     <main>
       <div className={classes.heroContent}>
@@ -54,7 +63,7 @@ function Transactions({ getAllTransactionsStartAsync, transactions }) {
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
-          {transactions.map((transaction) => (
+          {trans.map((transaction) => (
             <Grid item key={transaction._id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <img

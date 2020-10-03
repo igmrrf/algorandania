@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -7,8 +7,7 @@ import bitcoin from "../../../static/img/bitcoin.jpeg";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import yellow from "@material-ui/core/colors/yellow";
-import Tooltip from "recharts/lib/component/Tooltip";
-import CopyExample from "../../../helpers/copyToClipboard";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -32,20 +31,27 @@ const useStyles = makeStyles((theme) => ({
 
 const Bitcoin = () => {
   const classes = useStyles();
+  const [copy, setCopy] = useState(false);
 
   return (
     <Grid container justify={"center"} alignItems={"center"}>
       <Grid xs={12} md={6}>
         <CardHeader title={"Deposit Using Blockchain Wallet"} />
-        <Typography>Deposit to Blockchain wallet generated for you</Typography>
-        <Typography
-          id={"btc-wallet-copy"}
-          color={"textSecondary"}
-          ref={(btcWallet) => btcWallet}
+        <Typography>
+          Deposit to Blockchain wallet code/address generated.
+        </Typography>
+        <CopyToClipboard
+          text={"34yrzburKiqu5hB3SMJ1TYdjRE99cHUcv3"}
+          onCopy={() => setCopy(true)}
         >
+          <Button variant={"contained"} color={"primary"}>
+            Copy to clipboard
+          </Button>
+        </CopyToClipboard>
+        <Typography color={"textSecondary"}>
           34yrzburKiqu5hB3SMJ1TYdjRE99cHUcv3
         </Typography>
-        <CopyExample />
+
         <img
           src={bitcoin}
           width={240}
@@ -59,7 +65,7 @@ const Bitcoin = () => {
           <Button
             className={classes.button}
             variant={"contained"}
-            color={"secondary"}
+            color={"primary"}
             component={"a"}
             target={"_blank"}
             rel={"no-referrer no-opener"}
@@ -99,7 +105,7 @@ const Bitcoin = () => {
           <Button
             className={classes.button}
             variant={"contained"}
-            style={{ background: yellow[900], color: "white" }}
+            color={"secondary"}
             component={"a"}
             target={"_blank"}
             href={"https://www.bitcoin.com"}
@@ -126,7 +132,7 @@ const Bitcoin = () => {
           <Button
             className={classes.button}
             variant={"contained"}
-            style={{ background: yellow[900], color: "white" }}
+            color={"primary"}
             component={"a"}
             target={"_blank"}
             href={
@@ -140,7 +146,7 @@ const Bitcoin = () => {
           <Button
             className={classes.button}
             variant={"contained"}
-            style={{ background: yellow[900], color: "white" }}
+            color={"secondary"}
             component={"a"}
             target={"_blank"}
             href={"https://payments.changelly.com"}
@@ -152,7 +158,7 @@ const Bitcoin = () => {
           <Button
             className={classes.button}
             variant={"contained"}
-            style={{ background: yellow[900], color: "white" }}
+            color={"secondary"}
             component={"a"}
             target={"_blank"}
             href={"https://www.instacoins.com/"}

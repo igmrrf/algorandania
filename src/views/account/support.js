@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Layers from "@material-ui/icons/Layers";
@@ -40,25 +41,41 @@ const useStyles = makeStyles((theme) => ({
 export default function Support() {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
   const [support, setSupport] = useState({
     subject: "",
-    email: "",
     message: "",
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
+    if (support.message.length < 50) {
+      enqueueSnackbar("Your message is too short", { variant: "success" });
+      setLoading(false);
+      return;
+    }
     axios
       .post("support", support)
       .then((res) => {
         const data = res.data;
-        if (data.success === false) {
-          console.log(data.message);
+        if (data.success === true) {
+          setLoading(false);
+          enqueueSnackbar(data.message, { variant: "success" });
+          setSupport({ ...support, subject: "", message: "" });
         } else {
+          setLoading(false);
           console.log(data.message);
         }
       })
-      .catch((err) => enqueueSnackbar(err.message, { variant: "warning" }));
+      .catch((err) => {
+        setLoading(false);
+
+        if (err.response.data)
+          enqueueSnackbar(err.response.data, { variant: "warning" });
+        else if (err.message)
+          enqueueSnackbar(err.message, { variant: "warning" });
+      });
   };
   const handleChange = ({ target: { name, value } }) => {
     setSupport({ ...support, [name]: value });
@@ -88,31 +105,25 @@ export default function Support() {
                 fullWidth
                 id="subject"
                 label="Subject"
+                value={support.subject}
                 name="subject"
                 autoComplete="subject"
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={handleChange}
-              />
-            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 name="message"
+                multiline
+                rows={5}
+                value={support.message}
                 label="Message"
                 type="text"
+                helperText="Minimum text allowed is 50"
                 id="message"
                 autoComplete="current-message"
                 onChange={handleChange}
@@ -125,7 +136,13 @@ export default function Support() {
             color="primary"
             className={classes.submit}
           >
-            Submit
+            {loading ? (
+              <>
+                <CircularProgress size={30} color={"secondary"} /> Sending...
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </form>
       </div>

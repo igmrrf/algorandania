@@ -37,7 +37,7 @@ const UploadReceipt = () => {
       <Card className={classes.card}>
         <CardHeader title={"UPLOAD RECEIPT"} />
         <Grid container>
-          <Grid xs={12} md={6}>
+          <Grid xs={12} md={6} sm={6}>
             <TextField
               fullWidth
               name={"amount"}
@@ -47,7 +47,7 @@ const UploadReceipt = () => {
               style={{ paddingRight: 10, marginTop: 20 }}
             />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid xs={12} md={6} sm={6}>
             <FormControl fullWidth style={{ paddingRight: 10, marginTop: 20 }}>
               <InputLabel htmlFor="plan_selector">Choose Plan</InputLabel>
               <Select

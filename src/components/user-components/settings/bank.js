@@ -49,7 +49,7 @@ function Bank({
   const { enqueueSnackbar } = useSnackbar();
   const [disabled, setDisabled] = useState(false);
   const [details, setDetails] = useState({
-    account_name: bank.account_name,
+    account_name: "",
     account_type: "",
     bank_name: "",
     bank_code: "",
@@ -73,7 +73,10 @@ function Bank({
   }, [message, bank]);
 
   useEffect(() => {
-    if (bank.length < 1) getBankDetailsStartAsync();
+    getBankDetailsStartAsync();
+  }, []);
+
+  useEffect(() => {
     if (bank.user) {
       setDetails({
         account_name: bank.account_name,

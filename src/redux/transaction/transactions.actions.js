@@ -141,7 +141,7 @@ export const updateTransactionStartAsync = (id, status) => {
   return (dispatch) => {
     dispatch(updateTransactionStart());
     axios
-      .put("transactions/" + id, { status })
+      .patch("transactions/" + id, { status })
       .then((res) => {
         const transaction = res.data;
         dispatch(updateTransactionSuccess(transaction));

@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import { Container, Box, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getReferralsStartAsync } from "../../redux/referral/referrals.actions";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles({
   table: {
@@ -19,12 +20,19 @@ const useStyles = makeStyles({
 
 const headings = ["S/N", "Name", "Status", "Bonus"];
 
-function Referrals({ referrals, getReferralsStartAsync }) {
+function Referrals({ referrals, getReferralsStartAsync, errorMessage }) {
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   useEffect(() => {
     getReferralsStartAsync();
   }, [getReferralsStartAsync]);
-
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+    }
+  }, [errorMessage]);
   return (
     <Container>
       <Box>
@@ -65,6 +73,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   referrals: state.referral.data,
+  errorMessage: state.referral.errorMessage,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Referrals);

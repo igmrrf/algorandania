@@ -23,7 +23,7 @@ export const getBankDetailsStartAsync = () => {
     axios
       .get("banks/" + id)
       .then((res) => {
-        const bank = res.data[0];
+        let bank = res.data;
         dispatch(getBankDetailsSuccess(bank));
       })
       .catch((error) => dispatch(getBankDetailsFailure(error.response.data)));

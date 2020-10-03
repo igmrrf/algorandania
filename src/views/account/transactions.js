@@ -34,7 +34,7 @@ function Transactions({
   const classes = useStyles();
   useEffect(() => {
     if (transactions.length < 1) getTransactionsStartAsync();
-  }, [getTransactionsStartAsync]);
+  }, [transactions]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -60,7 +60,7 @@ function Transactions({
               ))}
             </TableRow>
           </TableHead>
-          {transactions.length > 1 ? (
+          {transactions.length >= 1 ? (
             <TableBody>
               {transactions.map((transaction, i) => (
                 <TableRow key={transaction._id}>
