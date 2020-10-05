@@ -1,7 +1,5 @@
 import UsersActionTypes from "./users.types";
 import axios from "../../utils/axios";
-import { id } from "../../utils/constants";
-import { defaultFormat } from "moment";
 
 //GETTING USER INFORMATION
 const getAllUserDetailsStart = () => ({

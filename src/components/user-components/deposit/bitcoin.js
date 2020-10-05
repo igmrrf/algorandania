@@ -6,7 +6,6 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import bitcoin from "../../../static/img/bitcoin.jpeg";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import yellow from "@material-ui/core/colors/yellow";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +44,7 @@ const Bitcoin = () => {
           onCopy={() => setCopy(true)}
         >
           <Button variant={"contained"} color={"primary"}>
-            Copy to clipboard
+            {copy ? "Copied" : "Copy to clipboard"}
           </Button>
         </CopyToClipboard>
         <Typography color={"textSecondary"}>

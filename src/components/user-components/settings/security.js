@@ -63,7 +63,7 @@ function Security({
       });
       clearAuthMessages();
     }
-  }, [errorMessage]);
+  }, [errorMessage, enqueueSnackbar, clearAuthMessages]);
   useEffect(() => {
     if (message) {
       enqueueSnackbar(message, {
@@ -76,7 +76,7 @@ function Security({
       password: "",
       confirmPassword: "",
     });
-  }, [message]);
+  }, [message, clearAuthMessages, enqueueSnackbar]);
 
   const handleSubmit = (event) => {
     const { newPassword, confirmPassword, password } = passwords;

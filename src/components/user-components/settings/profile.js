@@ -62,7 +62,7 @@ function Profile({
       });
       clearAuthMessages();
     }
-  }, [errorMessage]);
+  }, [errorMessage, enqueueSnackbar, clearAuthMessages]);
 
   useEffect(() => {
     if (message) {
@@ -71,7 +71,7 @@ function Profile({
       });
       clearAuthMessages();
     }
-  }, [message]);
+  }, [message, clearAuthMessages, enqueueSnackbar]);
 
   const handleChange = ({ target: { value, name } }) => {
     setState({ ...state, [name]: value });

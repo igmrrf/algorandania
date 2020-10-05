@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Grid, makeStyles } from "@material-ui/core";
 import Balances from "../../components/user-components/balance";
 import Performance from "../../components/user-components/performance";

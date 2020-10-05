@@ -63,10 +63,10 @@ export const getUserDetailsStartAsync = () => {
         dispatch(getUserDetailsSuccess(user));
       })
       .catch((error) => {
-        if (error.response.data) {
-          dispatch(getUserDetailsFailure(error.response.data));
-        } else if (error.message) {
+        if (error.message) {
           dispatch(getUserDetailsFailure(error.message));
+        } else if (error.response.data) {
+          dispatch(getUserDetailsFailure(error.response.data));
         }
       });
   };
@@ -77,9 +77,9 @@ const userCreateStart = () => ({
   type: AuthActionTypes.USER_CREATE_START,
 });
 
-const userCreateSuccess = (id, message) => ({
+const userCreateSuccess = (user) => ({
   type: AuthActionTypes.USER_CREATE_SUCCESS,
-  payload: { id, message },
+  payload: user,
 });
 
 const userCreateFailure = (message) => ({

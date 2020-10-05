@@ -9,7 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { connect } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
 import { updateUserStartAsync } from "../../redux/users/users.actions";
 import { TextField } from "@material-ui/core";
 import { useSnackbar } from "notistack";
@@ -61,7 +60,7 @@ function UserEdit({ users, updateUserStartAsync, match, message }) {
         variant: "success",
       });
     }
-  }, [message]);
+  }, [message, enqueueSnackbar]);
 
   useEffect(() => {
     setBalances({

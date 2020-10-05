@@ -20,7 +20,6 @@ import {
 } from "../../redux/auth/auth.actions";
 import { connect } from "react-redux";
 import { useSnackbar } from "notistack";
-import useIsMountedRef from "../../hooks/useMounted";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +62,6 @@ function Login({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const isMounted = useIsMountedRef();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -75,7 +73,7 @@ function Login({
       });
       clearAuthMessages();
     }
-  }, [errorMessage]);
+  }, [errorMessage, enqueueSnackbar, clearAuthMessages]);
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });

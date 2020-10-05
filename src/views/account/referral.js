@@ -26,13 +26,14 @@ function Referrals({ referrals, getReferralsStartAsync, errorMessage }) {
   useEffect(() => {
     getReferralsStartAsync();
   }, [getReferralsStartAsync]);
+
   useEffect(() => {
     if (errorMessage) {
       enqueueSnackbar(errorMessage, {
         variant: "warning",
       });
     }
-  }, [errorMessage]);
+  }, [errorMessage, enqueueSnackbar]);
   return (
     <Container>
       <Box>

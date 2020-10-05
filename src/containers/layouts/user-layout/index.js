@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -113,14 +113,18 @@ function titleCase(str) {
 
 function UserLayout({ children, name }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [headerName, setHeaderName] = useState("");
 
-  const headerName = titleCase(name);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  useEffect(() => {
+    if (name) {
+      setHeaderName(titleCase(name));
+    }
+  }, [name]);
   const logOut = () => {
     handleClose();
     localStorage.removeItem("x-auth-token");
@@ -199,7 +203,7 @@ function UserLayout({ children, name }) {
               to={"/account/transactions"}
               component={RouterLink}
             >
-              My account
+              Transactions
             </MenuItem>
             <MenuItem onClick={logOut}>Logout</MenuItem>
           </Menu>

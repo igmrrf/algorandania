@@ -2,7 +2,6 @@ import React from "react";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import LayersIcon from "@material-ui/icons/Layers";
 import ListItemLink from "../../../components/shared-components/link";
 import Settings from "@material-ui/icons/Settings";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";

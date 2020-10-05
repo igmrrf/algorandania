@@ -69,7 +69,7 @@ function ForgotPassword({
         variant: "warning",
       });
     }
-  }, [errorMessage]);
+  }, [errorMessage, enqueueSnackbar]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

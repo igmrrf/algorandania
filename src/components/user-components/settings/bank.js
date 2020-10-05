@@ -49,7 +49,6 @@ function Bank({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const [disabled, setDisabled] = useState(false);
   const [details, setDetails] = useState({
     account_name: "",
     account_type: "",
@@ -65,7 +64,7 @@ function Bank({
       });
       clearBankMessages();
     }
-  }, [errorMessage]);
+  }, [errorMessage, enqueueSnackbar, clearBankMessages]);
 
   useEffect(() => {
     if (message) {
@@ -74,11 +73,11 @@ function Bank({
       });
       clearBankMessages();
     }
-  }, [message, bank]);
+  }, [message, clearBankMessages, enqueueSnackbar]);
 
   useEffect(() => {
     if (bank.length < 1) getBankDetailsStartAsync();
-  }, []);
+  }, [getBankDetailsStartAsync, bank.length]);
 
   useEffect(() => {
     if (bank.user) {
@@ -94,7 +93,7 @@ function Bank({
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-   
+
     setDetails({ ...details, [name]: value });
   };
 
@@ -118,7 +117,6 @@ function Bank({
               fullWidth
               onChange={handleChange}
               value={details.account_name}
-              disabled={disabled}
               id="account_name"
               label="Account Name"
               name="account_name"
@@ -132,7 +130,6 @@ function Bank({
               value={details.account_number}
               onChange={handleChange}
               name="account_number"
-              disabled={disabled}
               label="Account Number"
               id="account_number"
               autoComplete="account_number"
@@ -140,8 +137,6 @@ function Bank({
             <TextField
               variant="outlined"
               margin="normal"
-              disabled={disabled}
-              required
               fullWidth
               onChange={handleChange}
               value={details.account_type}
@@ -156,7 +151,6 @@ function Bank({
               required
               fullWidth
               onChange={handleChange}
-              disabled={disabled}
               value={details.bank_name}
               name="bank_name"
               label="Bank Name"
@@ -167,7 +161,6 @@ function Bank({
               variant="outlined"
               margin="normal"
               required
-              disabled={disabled}
               fullWidth
               onChange={handleChange}
               value={details.bank_code}

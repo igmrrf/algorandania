@@ -10,7 +10,7 @@ class OverviewWidget extends React.Component {
     script.type = "text/javascript";
     script.innerHTML = JSON.stringify({
       colorTheme: "light",
-      dateRange: "12m",
+      dateRange: "1D",
       showChart: true,
       locale: "en",
       largeChartUrl: "",
@@ -25,6 +25,29 @@ class OverviewWidget extends React.Component {
       belowLineFillColorFalling: "rgba(33, 150, 243, 0.12)",
       symbolActiveColor: "rgba(33, 150, 243, 0.12)",
       tabs: [
+        {
+          title: "Cryptocurrencies",
+          symbols: [
+            {
+              s: "BITSTAMP:BTCUSD",
+            },
+            {
+              s: "COINBASE:ETHUSD",
+            },
+            {
+              s: "COINBASE:ALGOUSD",
+            },
+            {
+              s: "BINANCE:BNBBTC",
+            },
+            {
+              s: "BITSTAMP:XRPUSD",
+            },
+            {
+              s: "COINBASE:LTCUSD",
+            },
+          ],
+        },
         {
           title: "Commodities",
           symbols: [
@@ -108,29 +131,6 @@ class OverviewWidget extends React.Component {
             },
           ],
           originalTitle: "Forex",
-        },
-        {
-          title: "Cryptocurrencies",
-          symbols: [
-            {
-              s: "BITSTAMP:BTCUSD",
-            },
-            {
-              s: "COINBASE:ETHUSD",
-            },
-            {
-              s: "COINBASE:ALGOUSD",
-            },
-            {
-              s: "BINANCE:BNBBTC",
-            },
-            {
-              s: "BITSTAMP:XRPUSD",
-            },
-            {
-              s: "COINBASE:LTCUSD",
-            },
-          ],
         },
       ],
     });

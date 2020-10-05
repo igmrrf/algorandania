@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./utils/theme";
 import routes, { renderRoutes } from "./routes";
@@ -44,28 +44,17 @@ const GlobalStyles = () => {
 
 const App = ({
   getUserDetailsStartAsync,
-  clearBankMessages,
+  clearAuthMessages,
   errorMessage,
   role,
   id,
 }) => {
-  const { enqueueSnackbar } = useSnackbar();
-
   useEffect(() => {
     console.log("Mounted");
     if (id && role) {
       getUserDetailsStartAsync(id);
     }
   }, [role, getUserDetailsStartAsync, id]);
-
-  useEffect(() => {
-    if (errorMessage) {
-      enqueueSnackbar(errorMessage, {
-        variant: "warning",
-      });
-      clearBankMessages();
-    }
-  }, [errorMessage]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,7 +77,7 @@ const App = ({
 
 const mapDispatchToProps = (dispatch) => ({
   getUserDetailsStartAsync: (id) => dispatch(getUserDetailsStartAsync(id)),
-  clearBankMessages: () => dispatch(clearBankMessages()),
+  clearAuthMessages: () => dispatch(clearAuthMessages()),
 });
 
 const mapStateToProps = (state) => ({

@@ -52,7 +52,7 @@ function Transactions({ getAllTransactionsStartAsync, transactions }) {
     if (transactions !== trans) {
       setTrans(transactions);
     }
-  }, [transactions]);
+  }, [transactions,trans]);
 
   return (
     <main>

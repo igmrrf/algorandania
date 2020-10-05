@@ -75,7 +75,6 @@ function SignUp({
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
-  
   };
   useEffect(() => {
     if (errorMessage) {
@@ -84,7 +83,7 @@ function SignUp({
       });
       clearAuthMessages();
     }
-  }, [errorMessage]);
+  }, [errorMessage, enqueueSnackbar, clearAuthMessages]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

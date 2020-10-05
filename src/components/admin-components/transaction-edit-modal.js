@@ -41,7 +41,7 @@ function TransactionModal({ transaction, updateTransactionStartAsync }) {
   };
   useEffect(() => {
     if (transaction) setStatus(transaction.status);
-  }, []);
+  }, [transaction]);
 
   const handleChange = (event) => {
     setStatus(event.target.value);

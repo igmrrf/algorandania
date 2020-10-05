@@ -34,7 +34,7 @@ function Transactions({
   const classes = useStyles();
   useEffect(() => {
     if (transactions.length < 1) getTransactionsStartAsync();
-  }, [transactions]);
+  }, [transactions,getTransactionsStartAsync]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -42,7 +42,7 @@ function Transactions({
         variant: "warning",
       });
     }
-  }, [errorMessage]);
+  }, [errorMessage,enqueueSnackbar]);
   return (
     <Container>
       <Box>
