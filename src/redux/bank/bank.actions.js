@@ -58,6 +58,10 @@ export const bankCreateStartAsync = (bankDetails) => {
   };
 };
 
+export const clearBankMessages = () => ({
+  type: BankAccountTypes.CLEAR_BANK_MESSAGES,
+});
+
 //BANK DETAILS UPDATE ACTION
 const bankUpdateStart = () => ({
   type: BankAccountTypes.BANK_UPDATE_START,

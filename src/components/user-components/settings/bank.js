@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import {
   getBankDetailsStartAsync,
   bankCreateStartAsync,
+  clearBankMessages,
 } from "../../../redux/bank/bank.actions";
 import { useSnackbar } from "notistack";
 
@@ -44,6 +45,7 @@ function Bank({
   errorMessage,
   bankCreateStartAsync,
   message,
+  clearBankMessages,
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -61,6 +63,7 @@ function Bank({
       enqueueSnackbar(errorMessage, {
         variant: "warning",
       });
+      clearBankMessages();
     }
   }, [errorMessage]);
 
@@ -69,11 +72,12 @@ function Bank({
       enqueueSnackbar(message, {
         variant: "success",
       });
+      clearBankMessages();
     }
   }, [message, bank]);
 
   useEffect(() => {
-    getBankDetailsStartAsync();
+    if (bank.length < 1) getBankDetailsStartAsync();
   }, []);
 
   useEffect(() => {
@@ -209,6 +213,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getBankDetailsStartAsync: () => dispatch(getBankDetailsStartAsync()),
   bankCreateStartAsync: (data) => dispatch(bankCreateStartAsync(data)),
+  clearBankMessages: () => dispatch(clearBankMessages()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bank);

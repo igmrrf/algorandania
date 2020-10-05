@@ -9,6 +9,12 @@ const initialState = {
 
 const bankReducer = (state = initialState, action) => {
   switch (action.type) {
+    case BankAccountTypes.CLEAR_BANK_MESSAGES:
+      return {
+        ...state,
+        message: null,
+        errorMessage: null,
+      };
     case BankAccountTypes.GET_BANK_DETAILS_START:
     case BankAccountTypes.BANK_CREATE_START:
     case BankAccountTypes.BANK_UPDATE_START:

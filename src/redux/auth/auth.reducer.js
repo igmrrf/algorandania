@@ -11,6 +11,13 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case AuthActionTypes.CLEAR_AUTH_MESSAGES:
+      return {
+        ...state,
+        errorMessage: null,
+        message: null,
+      };
+
     case AuthActionTypes.UPDATE_USER_DETAILS_START:
     case AuthActionTypes.GET_USER_DETAILS_START:
     case AuthActionTypes.USER_CREATE_START:
@@ -53,8 +60,8 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        data: action.payload,
-        errorMessage: null,
+        data: { ...state.data, ...action.payload.user },
+        message: action.payload.message,
       };
     case AuthActionTypes.UPDATE_AUTH_PASSWORD_SUCCESS:
       return {

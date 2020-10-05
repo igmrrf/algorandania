@@ -6,7 +6,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useSnackbar } from "notistack";
-import { updateAuthPasswordStartAsync } from "../../../redux/auth/auth.actions";
+import {
+  updateAuthPasswordStartAsync,
+  clearAuthMessages,
+} from "../../../redux/auth/auth.actions";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -39,6 +42,7 @@ function Security({
   errorMessage,
   message,
   isFetching,
+  clearAuthMessages,
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -57,6 +61,7 @@ function Security({
       enqueueSnackbar(errorMessage, {
         variant: "warning",
       });
+      clearAuthMessages();
     }
   }, [errorMessage]);
   useEffect(() => {
@@ -64,6 +69,7 @@ function Security({
       enqueueSnackbar(message, {
         variant: "success",
       });
+      clearAuthMessages();
     }
     setPasswords({
       newPassword: "",
@@ -169,5 +175,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateAuthPasswordStartAsync: (data) =>
     dispatch(updateAuthPasswordStartAsync(data)),
+  clearAuthMessages: () => dispatch(clearAuthMessages()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Security);

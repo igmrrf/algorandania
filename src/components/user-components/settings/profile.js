@@ -5,7 +5,10 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { connect } from "react-redux";
-import { updateUserDetailsStartAsync } from "../../../redux/auth/auth.actions";
+import {
+  updateUserDetailsStartAsync,
+  clearAuthMessages,
+} from "../../../redux/auth/auth.actions";
 import Typography from "@material-ui/core/Typography";
 import { useSnackbar } from "notistack";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -40,6 +43,7 @@ function Profile({
   errorMessage,
   message,
   isFetching,
+  clearAuthMessages,
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -56,8 +60,18 @@ function Profile({
       enqueueSnackbar(errorMessage, {
         variant: "warning",
       });
+      clearAuthMessages();
     }
   }, [errorMessage]);
+
+  useEffect(() => {
+    if (message) {
+      enqueueSnackbar(message, {
+        variant: "success",
+      });
+      clearAuthMessages();
+    }
+  }, [message]);
 
   const handleChange = ({ target: { value, name } }) => {
     setState({ ...state, [name]: value });
@@ -178,10 +192,12 @@ const mapStateToProps = (state) => ({
   user: state.auth.data,
   errorMessage: state.auth.errorMessage,
   isFetching: state.auth.isFetching,
+  message: state.auth.message,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateUserDetailsStartAsync: (data) =>
     dispatch(updateUserDetailsStartAsync(data)),
+  clearAuthMessages: () => dispatch(clearAuthMessages()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

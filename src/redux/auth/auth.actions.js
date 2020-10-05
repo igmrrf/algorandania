@@ -102,9 +102,9 @@ const updateUserDetailsStart = () => ({
   type: AuthActionTypes.UPDATE_USER_DETAILS_START,
 });
 
-const updateUserDetailsSuccess = (user) => ({
+const updateUserDetailsSuccess = (user, message) => ({
   type: AuthActionTypes.UPDATE_USER_DETAILS_SUCCESS,
-  payload: user,
+  payload: { user, message },
 });
 
 const updateUserDetailsFailure = (message) => ({
@@ -119,8 +119,9 @@ export const updateUserDetailsStartAsync = (updateDetails) => {
     axios
       .put("users/" + id, { ...updateDetails })
       .then((res) => {
-        const user = res.data;
-        dispatch(updateUserDetailsSuccess(user));
+        const message = "Details successfully updated";
+        const user = { ...updateDetails };
+        dispatch(updateUserDetailsSuccess(user, message));
       })
       .catch((error) =>
         dispatch(updateUserDetailsFailure(error.response.data))
@@ -158,6 +159,10 @@ export const updateAuthPasswordStartAsync = (passwords) => {
       );
   };
 };
+
+export const clearAuthMessages = () => ({
+  type: AuthActionTypes.CLEAR_AUTH_MESSAGES,
+});
 
 // USER UPDATE CREATION
 const forgotPasswordStart = () => ({
