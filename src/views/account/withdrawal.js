@@ -62,14 +62,12 @@ function Withdrawal({
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(details);
-    console.log(value);
+
     setDetails({ ...details, [name]: value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(balance);
     const { amount, type, plan, wallet, confirm } = details;
     if (confirm !== wallet) {
       enqueueSnackbar("Wallet Addresses are not the same", { variant: "info" });

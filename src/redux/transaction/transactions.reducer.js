@@ -25,7 +25,7 @@ const transactionReducer = (state = initialState, action) => {
         data: action.payload,
       };
     case TransactionActionTypes.GET_ALL_TRANSACTIONS_SUCCESS:
-      console.log(action);
+    
       return {
         ...state,
         isFetching: false,

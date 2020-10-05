@@ -94,7 +94,7 @@ function Bank({
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(details);
+   
     setDetails({ ...details, [name]: value });
   };
 

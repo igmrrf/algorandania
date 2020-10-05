@@ -64,15 +64,12 @@ function UserEdit({ users, updateUserStartAsync, match, message }) {
   }, [message]);
 
   useEffect(() => {
-    console.log(users);
-    console.log(user);
     setBalances({
       balance: user.balances.balance.$numberDecimal,
       deposits: user.balances.deposits.$numberDecimal,
       withdraws: user.balances.withdraws.$numberDecimal,
       profits: user.balances.profits.$numberDecimal,
     });
-    console.log(match);
   }, [users, user]);
 
   const handleSubmit = (event) => {

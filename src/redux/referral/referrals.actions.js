@@ -27,6 +27,12 @@ export const getReferralsStartAsync = () => {
         if (res.data.success === false) throw new Error(res.data.message);
         dispatch(getReferralsSuccess(referrals));
       })
-      .catch((error) => dispatch(getReferralsFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(getReferralsFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(getReferralsFailure(error.message));
+        }
+      });
   };
 };

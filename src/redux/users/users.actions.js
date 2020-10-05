@@ -21,16 +21,20 @@ const getAllUserDetailsFailure = (message) => ({
 export const getAllUserDetailsStartAsync = () => {
   return (dispatch) => {
     dispatch(getAllUserDetailsStart());
-    console.log(localStorage.getItem("x-auth-token"));
     axios
       .get("users/")
       .then((res) => {
         const users = res.data;
         dispatch(getAllUserDetailsSuccess(users));
       })
-      .catch((error) =>
-        dispatch(getAllUserDetailsFailure(error.response.data))
-      );
+
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(getAllUserDetailsFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(getAllUserDetailsFailure(error.message));
+        }
+      });
   };
 };
 
@@ -51,7 +55,6 @@ const updateUserFailure = (message) => ({
 
 export const updateUserStartAsync = (id, updateDetails) => {
   return (dispatch) => {
-    console.log(updateDetails);
     dispatch(updateUserStart());
     axios
       .put("users/balance/" + id, { ...updateDetails })
@@ -59,6 +62,12 @@ export const updateUserStartAsync = (id, updateDetails) => {
         const data = res.data;
         dispatch(updateUserSuccess(data));
       })
-      .catch((error) => dispatch(updateUserFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(updateUserFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(updateUserFailure(error.message));
+        }
+      });
   };
 };

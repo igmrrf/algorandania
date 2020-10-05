@@ -26,7 +26,13 @@ export const getTransactionsStartAsync = () => {
         const transactions = res.data.data;
         dispatch(getTransactionsSuccess(transactions));
       })
-      .catch((error) => dispatch(getTransactionsFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(getTransactionsFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(getTransactionsFailure(error.message));
+        }
+      });
   };
 };
 
@@ -52,12 +58,15 @@ export const getAllTransactionsStartAsync = () => {
       .get("transactions")
       .then((res) => {
         const transactions = res.data;
-        console.log(transactions);
         dispatch(getAllTransactionsSuccess(transactions));
       })
-      .catch((error) =>
-        dispatch(getAllTransactionsFailure(error.response.data))
-      );
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(getAllTransactionsFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(getAllTransactionsFailure(error.message));
+        }
+      });
   };
 };
 
@@ -79,16 +88,19 @@ const createTransactionFailure = (message) => ({
 export const createTransactionStartAsync = (transactionData) => {
   return (dispatch) => {
     dispatch(createTransactionStart());
-    console.log(transactionData);
     axios
       .post("transactions/", { ...transactionData })
       .then((res) => {
         const transaction = res.data;
         dispatch(createTransactionSuccess(transaction));
       })
-      .catch((error) =>
-        dispatch(createTransactionFailure(error.response.data))
-      );
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(createTransactionFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(createTransactionFailure(error.message));
+        }
+      });
   };
 };
 
@@ -116,9 +128,13 @@ export const deleteTransactionStartAsync = () => {
         const transactions = res.data;
         dispatch(deleteTransactionSuccess(transactions._id));
       })
-      .catch((error) =>
-        dispatch(deleteTransactionFailure(error.response.data))
-      );
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(deleteTransactionFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(deleteTransactionFailure(error.message));
+        }
+      });
   };
 };
 
@@ -146,8 +162,12 @@ export const updateTransactionStartAsync = (id, status) => {
         const transaction = res.data;
         dispatch(updateTransactionSuccess(transaction));
       })
-      .catch((error) =>
-        dispatch(updateTransactionFailure(error.response.data))
-      );
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(updateTransactionFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(updateTransactionFailure(error.message));
+        }
+      });
   };
 };

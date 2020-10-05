@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
+import { SnackbarProvider, useSnackbar } from "notistack";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./utils/theme";
 import routes, { renderRoutes } from "./routes";
 import { createStyles, makeStyles } from "@material-ui/core";
 import { connect } from "react-redux";
-import { getUserDetailsStartAsync } from "./redux/auth/auth.actions";
+import {
+  getUserDetailsStartAsync,
+  clearAuthMessages,
+} from "./redux/auth/auth.actions";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -39,14 +42,31 @@ const GlobalStyles = () => {
   return null;
 };
 
-const App = ({ getUserDetailsStartAsync, role }) => {
+const App = ({
+  getUserDetailsStartAsync,
+  clearBankMessages,
+  errorMessage,
+  role,
+  id,
+}) => {
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     console.log("Mounted");
-    const id = localStorage.getItem("_id");
-    if (id && !role) {
+    if (id && role) {
       getUserDetailsStartAsync(id);
     }
-  }, [role, getUserDetailsStartAsync]);
+  }, [role, getUserDetailsStartAsync, id]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      enqueueSnackbar(errorMessage, {
+        variant: "warning",
+      });
+      clearBankMessages();
+    }
+  }, [errorMessage]);
+
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider
@@ -68,10 +88,12 @@ const App = ({ getUserDetailsStartAsync, role }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getUserDetailsStartAsync: (id) => dispatch(getUserDetailsStartAsync(id)),
+  clearBankMessages: () => dispatch(clearBankMessages()),
 });
 
 const mapStateToProps = (state) => ({
   role: state.auth.role,
+  id: state.auth.id,
   errorMessage: state.auth.errorMessage,
 });
 

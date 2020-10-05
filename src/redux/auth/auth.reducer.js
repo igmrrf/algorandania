@@ -30,30 +30,14 @@ const authReducer = (state = initialState, action) => {
         message: null,
       };
     case AuthActionTypes.GET_USER_DETAILS_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        data: { ...action.payload },
-        role: action.payload.isAdmin ? "admin" : "user",
-        errorMessage: null,
-      };
-
+    case AuthActionTypes.USER_CREATE_SUCCESS:
     case AuthActionTypes.AUTH_USER_SUCCESS:
       return {
         ...state,
         isFetching: false,
         data: { ...action.payload },
         role: action.payload.isAdmin ? "admin" : "user",
-        errorMessage: null,
-      };
-
-    case AuthActionTypes.USER_CREATE_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        errorMessage: null,
-        id: action.payload.id,
-        message: action.payload.message,
+        id: action.payload._id,
       };
 
     case AuthActionTypes.UPDATE_USER_DETAILS_SUCCESS:

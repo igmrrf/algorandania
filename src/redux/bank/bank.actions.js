@@ -26,7 +26,13 @@ export const getBankDetailsStartAsync = () => {
         let bank = res.data;
         dispatch(getBankDetailsSuccess(bank));
       })
-      .catch((error) => dispatch(getBankDetailsFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(getBankDetailsFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(getBankDetailsFailure(error.message));
+        }
+      });
   };
 };
 
@@ -47,14 +53,19 @@ const bankCreateFailure = (message) => ({
 export const bankCreateStartAsync = (bankDetails) => {
   return (dispatch) => {
     dispatch(bankCreateStart());
-    console.log(bankDetails);
     axios
       .post("banks", { ...bankDetails })
       .then((res) => {
         const { data, message } = res.data;
         dispatch(bankCreateSuccess(data, message));
       })
-      .catch((error) => dispatch(bankCreateFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(bankCreateFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(bankCreateFailure(error.message));
+        }
+      });
   };
 };
 
@@ -86,7 +97,13 @@ export const bankUpdateStartAsync = (bankDetails) => {
         const user = res.data.data;
         dispatch(bankUpdateSuccess(user));
       })
-      .catch((error) => dispatch(bankUpdateFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(bankUpdateFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(bankUpdateFailure(error.message));
+        }
+      });
   };
 };
 
@@ -114,6 +131,12 @@ export const getAllBanksStartAsync = () => {
         const banks = res.data;
         dispatch(getAllBanksSuccess(banks));
       })
-      .catch((error) => dispatch(getAllBanksFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(getAllBanksFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(getAllBanksFailure(error.message));
+        }
+      });
   };
 };

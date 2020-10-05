@@ -29,8 +29,11 @@ export const authStartAsync = (loginDetails) => {
         dispatch(authSuccess(user));
       })
       .catch((error) => {
-        console.log(error.response.data);
-        dispatch(authFailure(error.response.data));
+        if (error.response.data) {
+          dispatch(authFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(authFailure(error.message));
+        }
       });
   };
 };
@@ -59,7 +62,13 @@ export const getUserDetailsStartAsync = () => {
         const user = res.data;
         dispatch(getUserDetailsSuccess(user));
       })
-      .catch((error) => dispatch(getUserDetailsFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(getUserDetailsFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(getUserDetailsFailure(error.message));
+        }
+      });
   };
 };
 
@@ -84,16 +93,19 @@ export const createUserStartAsync = (createDetails) => {
     axios
       .post("users", createDetails)
       .then(async (res) => {
-        console.log(res);
         const user = res.data;
         const token = res.headers["x-auth-token"];
         localStorage.setItem("x-auth-token", token);
         localStorage.setItem("_id", user._id);
-        const message =
-          "Congrats you've successfully signed up, details will be sent to your email.";
-        dispatch(userCreateSuccess(user._id, message));
+        dispatch(userCreateSuccess(user));
       })
-      .catch((error) => dispatch(userCreateFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(userCreateFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(userCreateFailure(error.message));
+        }
+      });
   };
 };
 
@@ -115,7 +127,7 @@ const updateUserDetailsFailure = (message) => ({
 export const updateUserDetailsStartAsync = (updateDetails) => {
   return (dispatch) => {
     dispatch(updateUserDetailsStart());
-    console.log(updateDetails);
+
     axios
       .put("users/" + id, { ...updateDetails })
       .then((res) => {
@@ -123,9 +135,13 @@ export const updateUserDetailsStartAsync = (updateDetails) => {
         const user = { ...updateDetails };
         dispatch(updateUserDetailsSuccess(user, message));
       })
-      .catch((error) =>
-        dispatch(updateUserDetailsFailure(error.response.data))
-      );
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(updateUserDetailsFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(updateUserDetailsFailure(error.message));
+        }
+      });
   };
 };
 
@@ -147,16 +163,20 @@ const updateAuthPasswordFailure = (message) => ({
 export const updateAuthPasswordStartAsync = (passwords) => {
   return (dispatch) => {
     dispatch(updateAuthPasswordStart());
-    console.log(passwords);
+
     axios
       .patch("users/password/", { ...passwords })
       .then((res) => {
         const message = res.data;
         dispatch(updateAuthPasswordSuccess(message));
       })
-      .catch((error) =>
-        dispatch(updateAuthPasswordFailure(error.response.data))
-      );
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(updateAuthPasswordFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(updateAuthPasswordFailure(error.message));
+        }
+      });
   };
 };
 
@@ -187,6 +207,12 @@ export const forgotPasswordStartAsync = (email) => {
         const data = res.data.message;
         dispatch(forgotPasswordSuccess(data));
       })
-      .catch((error) => dispatch(forgotPasswordFailure(error.response.data)));
+      .catch((error) => {
+        if (error.response.data) {
+          dispatch(forgotPasswordFailure(error.response.data));
+        } else if (error.message) {
+          dispatch(forgotPasswordFailure(error.message));
+        }
+      });
   };
 };

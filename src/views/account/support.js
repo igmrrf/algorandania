@@ -65,7 +65,6 @@ export default function Support() {
           setSupport({ ...support, subject: "", message: "" });
         } else {
           setLoading(false);
-          console.log(data.message);
         }
       })
       .catch((err) => {

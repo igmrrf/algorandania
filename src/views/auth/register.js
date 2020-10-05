@@ -75,7 +75,7 @@ function SignUp({
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
-    console.log(user);
+  
   };
   useEffect(() => {
     if (errorMessage) {

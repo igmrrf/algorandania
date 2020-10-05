@@ -6,7 +6,7 @@ import { useSnackbar } from "notistack";
 
 function Balance({ balances }) {
   const entries = Object.entries(balances);
-  console.log(entries);
+
   const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     if (balances.deposits.$numberDecimal < 1)

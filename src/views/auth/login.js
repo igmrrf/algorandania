@@ -79,7 +79,6 @@ function Login({
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
-    console.log(user);
   };
 
   const handleSubmit = async (event) => {

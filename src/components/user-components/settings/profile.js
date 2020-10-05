@@ -78,7 +78,6 @@ function Profile({
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(state);
     updateUserDetailsStartAsync(state);
   };
   return (

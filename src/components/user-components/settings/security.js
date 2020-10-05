@@ -81,7 +81,6 @@ function Security({
   const handleSubmit = (event) => {
     const { newPassword, confirmPassword, password } = passwords;
     event.preventDefault();
-    console.log("Help");
     if (newPassword !== confirmPassword)
       enqueueSnackbar("Passwords don't match", {
         variant: "warning",

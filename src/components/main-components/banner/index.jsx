@@ -60,7 +60,6 @@ const Banner = () => {
       )
       .then((res) => {
         const data = res.data;
-        console.log(res.data);
         setBTC(convertThousand(data.bitcoin.usd));
         setYFI(convertThousand(data["yearn-finance"].usd));
         setETH(convertThousand(data.ethereum.usd));
