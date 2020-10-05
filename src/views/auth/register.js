@@ -16,7 +16,10 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { createUserStartAsync } from "../../redux/auth/auth.actions";
+import {
+  createUserStartAsync,
+  clearAuthMessages,
+} from "../../redux/auth/auth.actions";
 import p2p from "../../static/img/p2pblue.svg";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSnackbar } from "notistack";
@@ -53,7 +56,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp({ createUserStartAsync, isFetching, errorMessage, message }) {
+function SignUp({
+  createUserStartAsync,
+  isFetching,
+  errorMessage,
+  clearAuthMessages,
+}) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const [user, setUser] = useState({
@@ -74,18 +82,9 @@ function SignUp({ createUserStartAsync, isFetching, errorMessage, message }) {
       enqueueSnackbar(errorMessage, {
         variant: "warning",
       });
+      clearAuthMessages();
     }
   }, [errorMessage]);
-  useEffect(() => {
-    if (message) {
-      enqueueSnackbar(message, {
-        variant: "success",
-      });
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 2000);
-    }
-  }, [message]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -253,10 +252,10 @@ function SignUp({ createUserStartAsync, isFetching, errorMessage, message }) {
 const mapStateToProps = (state) => ({
   isFetching: state.auth.isFetching,
   errorMessage: state.auth.errorMessage,
-  message: state.auth.message,
 });
 const mapDispatchToProps = (dispatch) => ({
   createUserStartAsync: (createDetails) =>
     dispatch(createUserStartAsync(createDetails)),
+  clearAuthMessages: () => dispatch(clearAuthMessages()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

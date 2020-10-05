@@ -14,7 +14,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import p2p from "../../static/img/p2pblue.svg";
 import { Link as RouterLink } from "react-router-dom";
-import { authStartAsync } from "../../redux/auth/auth.actions";
+import {
+  authStartAsync,
+  clearAuthMessages,
+} from "../../redux/auth/auth.actions";
 import { connect } from "react-redux";
 import { useSnackbar } from "notistack";
 import useIsMountedRef from "../../hooks/useMounted";
@@ -52,7 +55,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ authStartAsync, isFetching, errorMessage }) {
+function Login({
+  authStartAsync,
+  isFetching,
+  errorMessage,
+  clearAuthMessages,
+}) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const isMounted = useIsMountedRef();
@@ -65,6 +73,7 @@ function Login({ authStartAsync, isFetching, errorMessage }) {
       enqueueSnackbar(errorMessage, {
         variant: "warning",
       });
+      clearAuthMessages();
     }
   }, [errorMessage]);
 
@@ -160,6 +169,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   authStartAsync: (data) => dispatch(authStartAsync(data)),
+  clearAuthMessages: () => dispatch(clearAuthMessages()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
